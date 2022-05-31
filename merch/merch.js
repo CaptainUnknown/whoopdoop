@@ -7,35 +7,46 @@ Moralis.start({ serverUrl, appId });
 async function login() {
     let user = Moralis.User.current();
     if (!user) {
-      user = await Moralis.authenticate({
-        signingMessage: "Log in using Moralis",
-      })
-        .then(function (user) {
-          console.log("logged in user:", user);
-          console.log(user.get("ethAddress"));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        user = await Moralis.authenticate({
+                signingMessage: "Connect Whoopdoop to the Ethereum network",
+            })
+            .then(function(user) {
+                console.log("logged in user:", user);
+                console.log(user.get("ethAddress"));
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
-  }
+    setTimeout(function() {
+        if(user){
+            alert("Wallet Conected");
+        }
+    }, 400);
+    getNFTObjs();
+}
   
-  async function logOut() {
+async function logOut() {
     await Moralis.User.logOut();
     console.log("logged out");
-  }
+}
   
   
-  //Get Current User Address
-  async function getCurrentUser() {
-      let currentUser = Moralis.User.current();
-      currentUserAddress = currentUser.attributes.ethAddress;
-      var currentUserAddress = 0;
-  }
-  
-  console.log(currentUserAddress);
-  
-  
-  
-  document.getElementById("btn-login").onclick = login();
-  document.getElementById("btn-logout").onclick = logOut();
+//current eth address of the user
+async function getCurrentUser() {
+    let currentUser = Moralis.User.current();
+    var currentUserAddress = 0;
+    currentUserAddress = currentUser.attributes.ethAddress;
+    console.log(currentUserAddress);
+}
+
+document.getElementById("btn-logout").addEventListener('click', () => {
+    logOut();
+    setTimeout(function() {
+        alert("Wallet Disconnected");
+    }, 800);
+}, false);
+document.getElementById("btn-login").addEventListener('click', () => {
+    login();
+    ADDFUNCTIONALITY();//ADD FUNCTIONALITY
+}, false);
