@@ -16,14 +16,16 @@ async function login() {
             })
             .catch(function(error) {
                 console.log(error);
+                alert(error.message);
             });
     }
     setTimeout(function() {
+        let user = Moralis.User.current();
         if(user){
-            alert("Wallet Conected");
+            alert("Wallet Connected");
         }
     }, 400);
-    getNFTObjs();
+    //getNFTs();
 }
   
 async function logOut() {
@@ -32,21 +34,38 @@ async function logOut() {
 }
   
   
-//current eth address of the user
-async function getCurrentUser() {
+//Waits for the current user's ethereum address to be fetched
+var currentUserAddress = "";
+async function test() {
     let currentUser = Moralis.User.current();
-    var currentUserAddress = 0;
     currentUserAddress = currentUser.attributes.ethAddress;
-    console.log(currentUserAddress);
+    return currentUserAddress;
 }
+async function waitForAddress() {
+    let t = await test();
+    console.log("address fetched successfully");
+    getNFTs();
+}
+waitForAddress();
+console.log(currentUserAddress);
+
 
 document.getElementById("btn-logout").addEventListener('click', () => {
     logOut();
     setTimeout(function() {
-        alert("Wallet Disconnected");
+        let user = Moralis.User.current();
+        //alert("Wallet Conected");
+        if(!user){
+            alert("Wallet already disconnected");
+        }
+        else{
+            alert("Wallet disconnected");
+        }
     }, 800);
 }, false);
 document.getElementById("btn-login").addEventListener('click', () => {
     login();
-    ADDFUNCTIONALITY();//ADD FUNCTIONALITY
 }, false);
+
+const getNFTs = async () => {
+}
