@@ -26,6 +26,7 @@ async function login() {
                 console.log(user.get("ethAddress"));
                 document.getElementById("btn-login").disabled = true;
                 document.getElementById("btn-logout").disabled = false;
+                getNFTs();
             })
             .catch(function(error) {
                 console.log(error);
@@ -75,9 +76,46 @@ document.getElementById("btn-login").addEventListener('click', () => {
     login();
 }, false);
 
+var ethNFTsImagesIPFS = [];
+var ethNFTsImages = [];
+var ethNFTsImagesURLs = [];
+
+var allImages = {
+    "eth" : ethNFTsImagesURLs,
+    //add all chains
+};
+
 //gets all the NFTs of the current user
-const getNFTs = async () => {
+const getNFTs = () => {
     const packet = { chain: 'rinkeby', address: currentUserAddress }; //Switch to Eth Network
     const ethNFTs = await Moralis.Web3API.account.getNFTs(options);
-    console.log(ethNFTs);
+    
+    for(let i = 0; i < ethNFTs.length - 1; i++) {
+        let tempNFTObj = ethNFTs[i];
+        let traits = Object.getOwnPropertyNames(tempNFTObj);
+        for(let j = 0; j < traits.length - 1; j++){
+            if(traits[j] == "image"){
+                ethNFTsImagesIPFS.push(tempNFTObj.image);
+            }
+        }
+    }
+    console.log(ethNFTsImagesIPFS);
+    for(let i = 0; i<ethNFTsImagesIPFS.length - 1 ; i++){
+        let temp = ethNFTsImagesIPFS[i];
+        let tempIDs = temp.substring(7);
+        ethNFTsImages.push(tempIDs);
+        console.log(ethNFTsImages);
+
+        ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsImages[i]}`);
+
+        console.log(ethNFTsImagesURLs[i]);
+
+        /*
+        let tempImage = ethNFTsImagesIPFS[i];
+        let image = document.createElement("img");
+        image.src = tempImage;
+        image.className = "nft-image";
+        document.getElementById("nft-container").appendChild(image);
+        */
+    }
 }
