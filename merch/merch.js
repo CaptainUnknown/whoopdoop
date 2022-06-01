@@ -1,6 +1,6 @@
 //Service Provider
-const serverUrl = "https://rzembgzcfjkd.usemoralis.com:2053/server";
-const appId = "WeJBsnqY0axj8C5iz05q1QT1qY0p9oX0XvG1VhRZ";
+const serverUrl = "https://dj2eobgdklts.usemoralis.com:2053/server";
+const appId = "ND5nN7BLT0R3qnfVZ45mD9GAULmk6MPQBlYGkDza";
 Moralis.start({ serverUrl, appId });
 
 const checkUser = () => {
@@ -77,6 +77,7 @@ document.getElementById("btn-login").addEventListener('click', () => {
 
 //gets all the NFTs of the current user
 const getNFTs = async () => {
-    const packet = { chain: 'eth', address: currentUserAddress };
+    const packet = { chain: 'rinkeby', address: currentUserAddress }; //Switch to Eth Network
     const ethNFTs = await Moralis.Web3API.account.getNFTs(options);
+    console.log(ethNFTs);
 }
