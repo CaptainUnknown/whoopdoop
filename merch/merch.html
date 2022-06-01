@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
   <head>
-    <title>Whoop Doop Merch Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>#Whoopdoop</title>
+    <link href="../ios_sample.png" rel="icon" type="image/x-icon" />
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" rel="stylesheet" />
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.0/tailwind.min.css" integrity="sha256-CAI/7ThhltsmP2L2zKBYa7FknB3ZwFbD0nqL8FCdxdc=" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&amp;display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/moralis@1.8.0/dist/moralis.js"></script>
+    <script src="merch.js"></script>
   </head>
 
-  <body>
-    <h1>Merch Store!</h1>
+  <body style="font-family: 'Comic Neue', cursive;  font-weight: bold;  font-size: 15px">
+    <nav class="fixed  w-full flex items-center bg-gray-800 p-3 flex-wrap"><a class="lg:pl-24 lg:justify-center  inline-flex items-center" href="#home"><img alt="" src="../doodle (2).png" width="40" /> <span class="text-3xl text-white font-bold uppercase tracking-wide">#whoopdoop</span> </a><button class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler" data-target="#navigation"><i class="material-icons">menu</i></button>
+      <div class="hidden w-full text-xl font-bold uppercase tracking-wide top-navbar lg:inline-flex lg:flex-grow lg:w-auto" id="navigation">
+        <div class="lg:inline-flex lg:flex-row lg:justify-center  lg:ml-24 lg:pl-24 lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto"><a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#home"><span>Home</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#roadmap"> <span>Roadmap</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#team"> <span>Team</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#mint"> <span>follow</span> </a>
+          <div class="lg:inline-flex lg:pl-24 lg:ml-24 items-center"><a class="hover:bg-gray-900 lg:px-1" href="https://twitter.com/WDoopsies" target="_blank"><img alt="" src="../twitter white no ack.png" width="50" /></a> <a class="hover:bg-gray-900  lg:px-1" href="https://discord.gg/wwEnMEswFd" target="_blank"><img alt="" src="../discord  white no ack.png.png.png" style="width: 40px;" /></a> <a class="hover:bg-gray-900  lg:px-1" href="https://www.instagram.com/wdoopsies/" target="_blank"><img alt="" src="../insta  white no ack.png.png" width="40" /></a></div>
+        </div>
+      </div>
+    </nav>
+    <main style="background-color: rgba(138,223,255,255); ">
+      <section class="pt-20" style="background-image: url('stars\ .gif')"><a name="home"></a> <img alt="" src="../banner.png" style="margin-left: 30%;" width="40%" /></section>
 
-    <button id="btn-login">Metamask Login</button>
-    <button id="btn-logout">Logout</button>
-
-    <script type="text/javascript" src="./merch.js"></script>
+      <section class="text-600 body-font">
+        <div class="container mx-auto flex px-5 py-5 md:flex-row flex-col items-center">
+            <div class="flex lg:ml-auto md:items-center "><button id="btn-login" class="inline-flex text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:bg-green-300 rounded text-lg">Connect Wallet</button></div>
+            <br></br>
+            <div class="flex lg:ml-auto md:items-center "><button id="btn-logout" class="inline-flex text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:bg-green-300 rounded text-lg">Logout</button></div>
+          </div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
