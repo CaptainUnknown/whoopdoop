@@ -19,7 +19,7 @@ async function login() {
     let user = Moralis.User.current();
     if (!user) {
         user = await Moralis.authenticate({
-                signingMessage: "Connect Whoopdoop to the Ethereum network",
+                signingMessage: "Connect Whoopdoop to MetaMask",
             })
             .then(function(user) {
                 console.log("logged in user:", user);
@@ -120,4 +120,5 @@ const getNFTs = async() => {
         document.getElementById("nft-container").appendChild(image);
         */
     }
+    return 0;
 }
