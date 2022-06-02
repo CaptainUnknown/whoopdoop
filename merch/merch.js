@@ -53,8 +53,10 @@ async function logOut() {
 var currentUserAddress = "";
 const addressGrabber = async () => {
     let currentUser = Moralis.User.current();
-    currentUserAddress = currentUser.attributes.ethAddress;
-    return currentUserAddress;
+    if(currentUser){
+        currentUserAddress = currentUser.attributes.ethAddress;
+        return currentUserAddress;
+    }
 }
 const waitForAddress = async() => {
     let t = await addressGrabber();
@@ -86,9 +88,9 @@ var allImages = {
 };
 
 //gets all the NFTs of the current user
-const getNFTs = () => {
-    const packet = { chain: 'rinkeby', address: currentUserAddress }; //Switch to Eth Network
-    const ethNFTs = await Moralis.Web3API.account.getNFTs(options);
+const getNFTs = async() => {
+    const packet = { chain: 'eth', address: currentUserAddress };
+    const ethNFTs = await Moralis.Web3API.account.getNFTs(packet);
     
     for(let i = 0; i < ethNFTs.length - 1; i++) {
         let tempNFTObj = ethNFTs[i];
