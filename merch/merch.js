@@ -78,9 +78,9 @@ document.getElementById("btn-login").addEventListener('click', () => {
     login();
 }, false);
 
-var ethNFTsImagesIPFS = [];
-var ethNFTsImages = [];
-var ethNFTsImagesURLs = [];
+var ethNFTsImagesIPFS = []; //array of IPFS urls
+var ethNFTsContentIDs = []; //array of content IDs
+var ethNFTsImagesURLs = []; //array of NFT images urls
 
 var allImages = {
     "eth" : ethNFTsImagesURLs,
@@ -105,10 +105,10 @@ const getNFTs = async() => {
     for(let i = 0; i<ethNFTsImagesIPFS.length - 1 ; i++){
         let temp = ethNFTsImagesIPFS[i];
         let tempIDs = temp.substring(7);
-        ethNFTsImages.push(tempIDs);
+        ethNFTsContentIDs.push(tempIDs);
         console.log(ethNFTsImages);
 
-        ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsImages[i]}`);
+        ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
 
         console.log(ethNFTsImagesURLs[i]);
 
@@ -124,7 +124,7 @@ const getNFTs = async() => {
 }
 
 
-//Image Generation
+//============================Image Generation================================
 
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
@@ -194,3 +194,4 @@ var freeImgSrc = 'free.png';
 
 document.getElementById('canvas-img').src = canvasSrc;
 document.getElementById('free-img').src = freeImgSrc;
+//==========================================================================
