@@ -7,15 +7,15 @@ const checkUser = () => {
     let user = Moralis.User.current();
     console.log("user", user)
     if(user){
-        document.getElementById("btn-login").disabled = true;
+        document.getElementById("btn-login").style.visibility = "hidden";
     }
     else{
-        document.getElementById("btn-logout").disabled = true;
+        document.getElementById("btn-logout").style.visibility = "hidden";
     }
 }
 
 //Authentication
-async function login() {
+const login = async () => {
     let user = Moralis.User.current();
     if (!user) {
         user = await Moralis.authenticate({
@@ -24,8 +24,8 @@ async function login() {
             .then(function(user) {
                 console.log("logged in user:", user);
                 console.log(user.get("ethAddress"));
-                document.getElementById("btn-login").disabled = true;
-                document.getElementById("btn-logout").disabled = false;
+                document.getElementById("btn-login").style.visibility = "hidden";
+                document.getElementById("btn-logout").style.visibility = "visible";
                 getNFTs();
             })
             .catch(function(error) {
@@ -41,11 +41,11 @@ async function login() {
     }, 400);
 }
   
-async function logOut() {
+const logOut = async () => {
     await Moralis.User.logOut();
     console.log("logged out");
-    document.getElementById("btn-logout").disabled = true;
-    document.getElementById("btn-login").disabled = false;
+    document.getElementById("btn-logout").style.visibility = "hidden";
+    document.getElementById("btn-login").style.visibility = "visible";
 }
   
   
@@ -80,7 +80,7 @@ document.getElementById("btn-login").addEventListener('click', () => {
 
 var ethNFTsImagesIPFS = []; //array of IPFS urls
 var ethNFTsContentIDs = []; //array of content IDs
-var ethNFTsImagesURLs = []; //array of NFT images urls
+var ethNFTsImagesURLs = []; //array of NFT images 
 
 var allImages = {
     "eth" : ethNFTsImagesURLs,
@@ -125,13 +125,12 @@ const getNFTs = async() => {
 
 
 //============================Image Generation================================
-
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
 
 freeImg.addEventListener('mousedown', moveImg);
 
-function moveImg(e) {
+const moveImg = (e) => {
     
     const shiftX = e.pageX - freeImgContainer.getBoundingClientRect().left;
     const shiftY = e.pageY - freeImgContainer.getBoundingClientRect().top;
@@ -160,7 +159,7 @@ const screenshotBtn = document.getElementById('screenshot-btn');
 screenshotBtn.addEventListener('click', takeshot);
 var link = document.getElementById('dl-link');
 
-function takeshot(){
+const takeshot = () => {
     const outputElm = document.getElementById('output');
     outputElm.innerHTML = "";
     html2canvas(screenshot).then(
