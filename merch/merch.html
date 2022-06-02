@@ -15,10 +15,9 @@
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&amp;display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/moralis@1.8.0/dist/moralis.js"></script>
-    <script src="merch.js"></script>
   </head>
 
-  <body style="font-family: 'Comic Neue', cursive;  font-weight: bold;  font-size: 15px">
+  <body style="font-family: 'Comic Neue', cursive;  font-weight: bold;  font-size: 15px; background-color: rgba(138,223,255,255);">
     <nav class="fixed  w-full flex items-center bg-gray-800 p-3 flex-wrap"><a class="lg:pl-24 lg:justify-center  inline-flex items-center" href="#home"><img alt="" src="../doodle (2).png" width="40" /> <span class="text-3xl text-white font-bold uppercase tracking-wide">#whoopdoop</span> </a><button class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler" data-target="#navigation"><i class="material-icons">menu</i></button>
       <div class="hidden w-full text-xl font-bold uppercase tracking-wide top-navbar lg:inline-flex lg:flex-grow lg:w-auto" id="navigation">
         <div class="lg:inline-flex lg:flex-row lg:justify-center  lg:ml-24 lg:pl-24 lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto"><a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#home"><span>Home</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#roadmap"> <span>Roadmap</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#team"> <span>Team</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#mint"> <span>follow</span> </a>
@@ -27,8 +26,8 @@
       </div>
     </nav>
     <main style="background-color: rgba(138,223,255,255); ">
-      <section class="pt-20" style="background-image: url('stars\ .gif')"><a name="home"></a> <img alt="" src="../banner.png" style="margin-left: 30%;" width="40%" /></section>
-
+      <section class="pt-20" style="background-image: url('../stars\ .gif')"><a name="home"></a> <img alt="" src="../banner.png" style="margin-left: 30%;" width="40%" /></section>
+      <div class="flex lg:ml-auto md:items-center "><h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-900">#Whoopdoop Merch Store</h1></div>
       <section class="text-600 body-font">
         <div class="container mx-auto flex px-5 py-5 md:flex-row flex-col items-center">
             <div class="flex lg:ml-auto md:items-center "><button id="btn-login" class="inline-flex text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:bg-green-300 rounded text-lg">Connect Wallet</button></div>
@@ -38,5 +37,6 @@
         </div>
       </section>
     </main>
+    <script src="merch.js"></script>
   </body>
 </html>
