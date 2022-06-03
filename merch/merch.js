@@ -3,8 +3,10 @@ const serverUrl = "https://dj2eobgdklts.usemoralis.com:2053/server";
 const appId = "ND5nN7BLT0R3qnfVZ45mD9GAULmk6MPQBlYGkDza";
 Moralis.start({ serverUrl, appId });
 
-const checkUser = () => {
-    let user = Moralis.User.current();
+console.log("window.location", window.location.pathname);
+
+window.onload = () => {
+  let user = Moralis.User.current();
     console.log("user", user)
     if(user){
         document.getElementById("btn-login").style.visibility = "hidden";
@@ -12,9 +14,7 @@ const checkUser = () => {
     else{
         document.getElementById("btn-logout").style.visibility = "hidden";
     }
-}
-
-checkUser();
+};
 
 //Authentication
 const login = async () => {
@@ -28,6 +28,7 @@ const login = async () => {
                 console.log(user.get("ethAddress"));
                 document.getElementById("btn-login").style.visibility = "hidden";
                 document.getElementById("btn-logout").style.visibility = "visible";
+                waitForAddress();
                 getNFTs();
             })
             .catch(function(error) {
@@ -67,20 +68,19 @@ const waitForAddress = async() => {
     console.log("address fetched successfully");
     getNFTs();
 }
-waitForAddress();
+
 console.log(currentUserAddress);
 
-
 document.getElementById("btn-logout").addEventListener('click', () => {
-    logOut();
-    setTimeout(function() {
-        //alert("Wallet Conected");
-        alert("Wallet disconnected");
-    }, 800);
-}, false);
+  logOut();
+  setTimeout(function() {
+      alert("Wallet disconnected");
+  }, 800);
+});
 document.getElementById("btn-login").addEventListener('click', () => {
-    login();
-}, false);
+  login();
+});
+
 
 var ethNFTsImagesIPFS = []; //array of IPFS urls
 var ethNFTsContentIDs = []; //array of content IDs
@@ -175,20 +175,12 @@ const getNFTs = async() => {
         console.log(ethNFTsImagesURLs[i]);
 
         generateTable();
-
-        /*
-        let tempImage = ethNFTsImagesIPFS[i];
-        let image = document.createElement("img");
-        image.src = tempImage;
-        image.className = "nft-image";
-        document.getElementById("nft-container").appendChild(image);
-        */
     }
 }
 
 var selectedImages = [];
 
-//TODO: Fix every even image not being selectable
+//TODO: Fix not every image being selectable
 //TODO: Fix Z index issue
 const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
@@ -212,8 +204,26 @@ const generateTable = () => {
   }
 }
 
+let next1 = document.getElementById("btn-nftsSelected");
+next1.addEventListener('click', () => {
+  storeSelectedImages();
+  storeUserAddress();
+  window.location.replace("selectMerch.html");
+});
+
 console.log("selectedImages", selectedImages);
 
+//Store selected images in cookies
+const storeSelectedImages = () => {
+    document.cookie = "selectedImages=" + JSON.stringify(selectedImages);
+}
+
+//Store user address in cookies
+const storeUserAddress = () => {
+  document.cookie = "userAddress=" + JSON.stringify(currentUserAddress);
+}
+
+console.log("userAddress", document.cookie);
 
 
 //============================Image Generation================================
