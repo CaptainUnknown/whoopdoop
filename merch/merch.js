@@ -188,34 +188,30 @@ const getNFTs = async() => {
 
 var selectedImages = [];
 
+//TODO: Fix every even image not being selectable
+//TODO: Fix Z index issue
 const generateTable = () => {
-    for(let i = 0; i < ethNFTsImagesURLs.length; i++){
-        let imageContainer = document.getElementById("image-container");
-        let image = imageContainer.appendChild(document.createElement("li"));
-        image.innerHTML = `<li><input type=\"checkbox\" id=\"cb1\" /><label for=\"cb1\"><img src=\"${ethNFTsImagesURLs[i]}\" /></label></li>`;
-        element.addEventListener('click', function(){
-            selectedImages.push();
-            console.log("click");
-        });
-    }
+  for(let i = 0; i < ethNFTsImagesURLs.length; i++){
+      let imageContainer = document.getElementById("image-container");
+      let image = imageContainer.appendChild(document.createElement("li"));
+      image.innerHTML = `<li><input type=\"checkbox\" id=\"cb${i+1}\" /><label for=\"cb${i+1}\"><img src=\"${ethNFTsImagesURLs[i]}\" /></label></li>`;
+      image.addEventListener( 'change', function() {
+        if(this.checked) {
+          selectedImages.push(ethNFTsImagesURLs[i]);
+        } else {
+          for(let j = 0; j < selectedImages.length; j++) {
+            if(selectedImages[j] == ethNFTsImagesURLs[i]) {
+              selectedImages.splice(j, 1);
+            }
+          }
+        }
+    });    
+  }
 }
 
-/*
-<ul>
-  <li><input type="checkbox" id="cb1" />
-    <label for="cb1"><img src="https://picsum.photos/seed/1/100" /></label>
-  </li>
-  <li><input type="checkbox" id="cb2" />
-    <label for="cb2"><img src="https://picsum.photos/seed/2/100" /></label>
-  </li>
-  <li><input type="checkbox" id="cb3" />
-    <label for="cb3"><img src="https://picsum.photos/seed/3/100" /></label>
-  </li>
-  <li><input type="checkbox" id="cb4" />
-    <label for="cb4"><img src="https://picsum.photos/seed/4/100" /></label>
-  </li>
-</ul>
-*/
+console.log("selectedImages", selectedImages);
+
+
 
 //============================Image Generation================================
 /*
