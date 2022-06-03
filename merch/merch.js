@@ -194,14 +194,17 @@ const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
       let imageContainer = document.getElementById("image-container");
       let image = imageContainer.appendChild(document.createElement("li"));
-      image.innerHTML = `<li><input type=\"checkbox\" id=\"cb${i+1}\" /><label for=\"cb${i+1}\"><img src=\"${ethNFTsImagesURLs[i]}\" /></label></li>`;
-      image.addEventListener( 'change', function() {
+      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i+1) + "\" /><label for=\"cb" +(i+1)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
+      let checkbox = document.getElementById("cb" + (i+1));
+      checkbox.addEventListener( 'change', function() {
         if(this.checked) {
           selectedImages.push(ethNFTsImagesURLs[i]);
+          console.log("item selected", selectedImages);
         } else {
           for(let j = 0; j < selectedImages.length; j++) {
             if(selectedImages[j] == ethNFTsImagesURLs[i]) {
               selectedImages.splice(j, 1);
+              console.log("item removed", selectedImages);
             }
           }
         }
