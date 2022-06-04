@@ -72,17 +72,17 @@ label img {
 }
 
 :checked+label {
-  border-color: #ddd;
+  border-color: #99db36;
 }
 
 :checked+label::before {
   content: "✓";
-  background-color: grey;
+  background-color: #99db36;
   transform: scale(1);
 }
 
 :checked+label img {
   transform: scale(0.9);
-  box-shadow: 0 0 5px #333;
+  box-shadow: 0 0 5px rgb(68, 85, 69);
 }
 /*# sourceMappingURL=style.css.map */
