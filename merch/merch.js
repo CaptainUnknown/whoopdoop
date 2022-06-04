@@ -6,6 +6,7 @@ Moralis.start({ serverUrl, appId });
 console.log("window.location", window.location.pathname);
 
 window.onload = () => {
+  document.getElementById("btn-nftsSelected").style.visibility = "hidden";
   let user = Moralis.User.current();
     console.log("user", user)
     if(user){
@@ -13,7 +14,7 @@ window.onload = () => {
     }
     else{
         document.getElementById("btn-logout").style.visibility = "hidden";
-        document.getElementById("btn-nftsSelected").style.visibility = "hidden";
+        
     }
 };
 
@@ -214,9 +215,14 @@ const generateTable = () => {
 
 let next1 = document.getElementById("btn-nftsSelected");
 next1.addEventListener('click', () => {
-  storeSelectedImages();
-  storeUserAddress();
-  window.location.replace("selectMerch.html");
+  if(selectedImages.length == 0){
+    alert("Please select at least one NFT");
+  }
+  else{
+    storeSelectedImages();
+    storeUserAddress();
+    window.location.replace("selectMerch.html");
+  }
 });
 
 console.log("selectedImages", selectedImages);
