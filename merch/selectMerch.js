@@ -1,19 +1,36 @@
-console.log(document.cookie.userAddress);
+const parseCookie = str =>
+str
+.split(';')
+.map(v => v.split('='))
+.reduce((acc, v) => {
+  acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+  return acc;
+}, {});
+
+const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
-if (document.cookie.userAddress == undefined) {
-   //window.location.replace("/merch/merch.html");
+if (cookieObj.userAddress == undefined) {
+  //window.location.replace("/merch/merch.html");
 }
 
 //object data with merch images
-let merchData = {
-    "shirt" : "https://picsum.photos/seed/1/100",
-    "hoodie" : "https://picsum.photos/seed/2/100",
-    "test": "https://picsum.photos/seed/3/100",
-    "anothertest": "https://picsum.photos/seed/4/100"
-}
+let merchURLs = {
+  "shirt" : "https://picsum.photos/seed/1/100",
+  "hoodie" : "https://picsum.photos/seed/2/100",
+  "test": "https://picsum.photos/seed/3/100",
+  "anothertest": "https://picsum.photos/seed/4/100"
+};
 
-let merchArray = Object.values(merchData);
+let merchPrices = {
+  "shirt" : "0.005",
+  "hoodie" : "0.007",
+  "test": "0.001",
+  "anothertest": "0.001"
+};
+//TODO MONGO Integration
+
+let merchArray = Object.values(merchURLs);
 
 console.log("merchArray: " + merchArray);
 
