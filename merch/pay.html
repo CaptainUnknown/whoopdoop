@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>#Whoopdoop</title>
+    <link href="../ios_sample.png" rel="icon" type="image/x-icon" />
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" rel="stylesheet" />
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.0/tailwind.min.css" integrity="sha256-CAI/7ThhltsmP2L2zKBYa7FknB3ZwFbD0nqL8FCdxdc=" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&amp;display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/moralis@1.8.0/dist/moralis.js"></script>
+  </head>
+
+  <body style="font-family: 'Comic Neue', cursive;  font-weight: bold;  font-size: 15px; background-color: rgba(138,223,255,255);">
+    <nav class="fixed  w-full flex items-center bg-gray-800 p-3 flex-wrap"><a class="lg:pl-24 lg:justify-center  inline-flex items-center" href="#home"><img alt="" src="../doodle (2).png" width="40" /> <span class="text-3xl text-white font-bold uppercase tracking-wide">#whoopdoop</span> </a><button class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler" data-target="#navigation"><i class="material-icons">menu</i></button>
+      <div class="hidden w-full text-xl font-bold uppercase tracking-wide top-navbar lg:inline-flex lg:flex-grow lg:w-auto" id="navigation">
+        <div class="lg:inline-flex lg:flex-row lg:justify-center  lg:ml-24 lg:pl-24 lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto"><a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#home"><span>Home</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#roadmap"> <span>Roadmap</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#team"> <span>Team</span> </a> <a class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white" href="#mint"> <span>follow</span> </a>
+          <div class="lg:inline-flex lg:pl-24 lg:ml-24 items-center"><a class="hover:bg-gray-900 lg:px-1" href="https://twitter.com/WDoopsies" target="_blank"><img alt="" src="../twitter white no ack.png" width="50" /></a> <a class="hover:bg-gray-900  lg:px-1" href="https://discord.gg/wwEnMEswFd" target="_blank"><img alt="" src="../discord  white no ack.png.png.png" style="width: 40px;" /></a> <a class="hover:bg-gray-900  lg:px-1" href="https://www.instagram.com/wdoopsies/" target="_blank"><img alt="" src="../insta  white no ack.png.png" width="40" /></a></div>
+        </div>
+      </div>
+    </nav>
+
+    <main style="background-color: rgba(138,223,255,255); ">
+
+      <section class="pt-20" style="background-image: url('../stars\ .gif')"><a name="home"></a> <img alt="" src="../banner.png" style="margin-left: 30%;" width="40%" /></section>
+      <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap -m-4">
+          <div class="p-4 md:w-full">
+            <div class="h-full flex flex-col items-center text-center sm:text-left md:text-left">
+              <h2 class="title-font text-3xl font-medium text-gray-900 mb-4">Space Voyage with beautiful Whoopsies Merch!</h2>
+              <p class="mb-8 leading-relaxed">Transfer Tokens to confirm your order!</p>
+              <div class="flex mb-4">
+              </div>
+              <form action="/action_page.php">
+                <label class="inputq" for="fname">Discord username:</label>
+                <input placeholder="Whoopsies#0000" type="text" id="fname" name="fname"><br><br>
+                <label class="inputq" for="lname">Email Address:</label>
+                <input placeholder="Whoopsies@Whoopdoop.com" type="email" id="email" name="email"><br><br>
+                <label class="inputq" for="lname">Mailing Address:</label>
+                <input placeholder="Where do you want it to be sent?" type="text" id="mailaddress" name="mailaddress"><br><br>
+                <button id="pay" class="inline-flex text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:bg-green-300 rounded text-lg">Make Payment</button>
+              </form>
+            </div>
+          </div>
+          <div class="p-4 md:w-2/3 md:order-1 order-3 md:text-center text-center">
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="pay.js"></script>
+
+  </body>
+
+</html>
