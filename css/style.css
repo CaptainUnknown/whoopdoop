@@ -16,6 +16,24 @@ body {
   }
 }
 
+/* INPUT FIELDS */
+input {
+  
+  border: 2px solid #40606c;
+  background-color: #b7ecff;
+  border-radius: 10px;
+  width: 300px;
+  margin: 8px 0;
+  height: 10%;
+
+  box-sizing: border-box;
+}
+
+.inputq {
+  border: 4px solid #54a2be;
+  border-radius: 10px;
+}
+
 /* IMAGE SELECTION */
 ul {
   list-style-type: none;
