@@ -1,6 +1,6 @@
 //Service Provider
-const serverUrl = "https://dj2eobgdklts.usemoralis.com:2053/server";
-const appId = "ND5nN7BLT0R3qnfVZ45mD9GAULmk6MPQBlYGkDza";
+const serverUrl = "https://9u6c8mkecbej.usemoralis.com:2053/server";
+const appId = "eR98aghbIcArA9Wfhh86INVnCk0M04Y96FviHdRJ";
 Moralis.start({ serverUrl, appId });
 
 console.log("window.location", window.location.pathname);
