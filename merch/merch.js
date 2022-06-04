@@ -13,6 +13,7 @@ window.onload = () => {
     }
     else{
         document.getElementById("btn-logout").style.visibility = "hidden";
+        document.getElementById("btn-nftsSelected").style.visibility = "hidden";
     }
 };
 
@@ -175,6 +176,13 @@ const getNFTs = async() => {
         console.log(ethNFTsImagesURLs[i]);
 
         generateTable();
+    }
+
+    if(ethNFTsImagesURLs.length == 0){
+        alert("No NFTs found");
+    }
+    else{
+      document.getElementById("btn-nftsSelected").style.visibility = "visible";
     }
 }
 
