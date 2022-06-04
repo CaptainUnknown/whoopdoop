@@ -1,7 +1,8 @@
 console.log(document.cookie.userAddress);
 
+//Checks whether the user is authenticated
 if (document.cookie.userAddress == undefined) {
-   window.location.replace("/merch/merch.html");
+   //window.location.replace("/merch/merch.html");
 }
 
 //object data with merch images
@@ -42,20 +43,12 @@ generateTable();
 let next2 = document.getElementById("btn-merchSelected");
 next2.addEventListener('click', () => {
   storeSelectedImages();
-  storeUserAddress();
   window.location.replace("designMerch.html");
 });
 
-console.log("selectedImages", selectedImages);
-
 //Store selected images in cookies
 const storeSelectedImages = () => {
-    document.cookie = "selectedImages=" + JSON.stringify(selectedImages);
-}
-
-//Store user address in cookies
-const storeUserAddress = () => {
-  document.cookie = "userAddress=" + JSON.stringify(currentUserAddress);
+    document.cookie = "selectedMerch=" + JSON.stringify(selectedImages);
 }
 
 console.log("userAddress", document.cookie);
