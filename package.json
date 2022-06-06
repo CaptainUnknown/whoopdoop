@@ -1,0 +1,24 @@
+{
+  "name": "whoopdoop",
+  "version": "1.0.0",
+  "description": "Merch Store with MetaMask Integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaptainUnknown/whoopdoop.git"
+  },
+  "author": "Captain Unknown | Web3naut",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CaptainUnknown/whoopdoop/issues"
+  },
+  "homepage": "https://github.com/CaptainUnknown/whoopdoop#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+  }
+}
