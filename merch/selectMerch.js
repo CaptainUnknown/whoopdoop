@@ -14,36 +14,8 @@ if (cookieObj.userAddress == undefined) {
   window.location.replace("/merch/merch.html");
 }
 
-var merchPrices;
-var merchURLs;
-
-const getData = () => {
-
-    fetch('http://localhost:8000/prices')
-    .then(res => res.json())
-    .then(data => merchPrices = data)
-    .then(() => console.log(merchPrices));
-
-
-    fetch('http://localhost:8000/merchURLs')
-    .then(res => res.json())
-    .then(data => merchURLs = data)
-    .then(() => console.log(merchURLs));
-
-    setTimeout(() => {
-        console.log(merchPrices);
-        console.log(merchURLs);
-
-        calculateBill();
-    }, 1000);
-}
-
-getData();
-
-let merchArray = Object.values(merchURLs);
-
-console.log("merchArray: " + merchArray);
-
+//---Generate Table
+// TODO: Currently is not dynamic & is hardcoded in html
 var selectedImages = [];
 //makes a selectable list of merch images
 const generateTable = () => {
@@ -65,17 +37,44 @@ const generateTable = () => {
     }
 }
 
-generateTable();
 
-let next2 = document.getElementById("btn-merchSelected");
-next2.addEventListener('click', () => {
+var merchPrices;
+var merchURLs;
+
+const getData = async () => {
+
+    await fetch('http://localhost:8000/prices')
+    .then(res => res.json())
+    .then(data => merchPrices = data)
+    .then(() => console.log(merchPrices));
+
+
+    await fetch('http://localhost:8000/merchURLs')
+    .then(res => res.json())
+    .then(data => merchURLs = data)
+    .then(() => console.log(merchURLs));
+
+    console.log(merchPrices);
+    console.log(merchURLs);
+
+    generateTable();
+
+  let merchArray = Object.values(merchURLs);
+  console.log("merchArray: " + merchArray);
+
+
+  let next2 = document.getElementById("btn-merchSelected");
+  next2.addEventListener('click', () => {
   storeSelectedImages();
   window.location.replace("designMerch.html");
-});
+  });
 
-//Store selected images in cookies
-const storeSelectedImages = () => {
+  //Store selected images in cookies
+  const storeSelectedImages = () => {
     document.cookie = "selectedMerch=" + JSON.stringify(selectedImages);
+  }
+
+  console.log("userAddress", document.cookie);
 }
 
-console.log("userAddress", document.cookie);
+getData();
