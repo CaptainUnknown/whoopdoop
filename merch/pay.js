@@ -103,13 +103,16 @@ const payBill = async () => {
 
     //forwarding user response to database
     let data = userInfo;
+    let packet = JSON.stringify(data);
 
-    fetch("http:localhost:8000/pay", {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'}, 
-    body: JSON.stringify(data)
-    }).then(res => {
-    console.log("Response Forwarded! response: ", res);
+    // The parameters we are gonna pass to the fetch function
+    fetch('http://localhost:8000/pay', { 
+        method: 'POST', 
+        body: packet,
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(function() {
+        console.log('Request succeeded');
     });
 
     redirect();
