@@ -11,36 +11,29 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
+  //window.location.replace("/merch/merch.html");
 }
 
 var merchPrices;
-var merchURLs;
 
-const getData = () => {
+const getData = async () => {
 
-    fetch('http://localhost:8000/prices')
+    await fetch('http://localhost:8000/prices')
     .then(res => res.json())
     .then(data => merchPrices = data)
     .then(() => console.log(merchPrices));
 
 
-    fetch('http://localhost:8000/merchURLs')
-    .then(res => res.json())
-    .then(data => merchURLs = data)
-    .then(() => console.log(merchURLs));
+    console.log(merchPrices);
 
-    setTimeout(() => {
-        console.log(merchPrices);
-        console.log(merchURLs);
-
-        calculateBill();
-    }, 1000);
+    calculateBill();
 }
 
 getData();
 
-document.getElementById("pay").onclick = function() {
+var userInfo = {};
+
+document.getElementById("pay").onclick = () => {
     let allAreFilled = true;
     document.getElementById("myForm").querySelectorAll("[required]").forEach(function(i) {
       if (!allAreFilled) return;
@@ -49,7 +42,10 @@ document.getElementById("pay").onclick = function() {
     if (!allAreFilled) {
       alert('Fill all the fields');
     }
-    
+
+    //construct user info from input fields
+    let formData = document.forms.userData;
+
     payBill();
 };
 
@@ -81,6 +77,17 @@ const payBill = async () => {
             redirect();
         }
     }, 5000);
+
+    //forwarding user response to database
+    //let data = /*USER DATA*/;
+
+    fetch("/post/data/here", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(data)
+    }).then(res => {
+    console.log("Response Forwarded! response: ", res);
+    });
 }
 
 //If successfull then redirect to Thankyou.html
