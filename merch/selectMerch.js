@@ -11,24 +11,34 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  //window.location.replace("/merch/merch.html");
+  window.location.replace("/merch/merch.html");
 }
 
-//object data with merch images
-let merchURLs = {
-  "shirt" : "https://picsum.photos/seed/1/100",
-  "hoodie" : "https://picsum.photos/seed/2/100",
-  "test": "https://picsum.photos/seed/3/100",
-  "anothertest": "https://picsum.photos/seed/4/100"
-};
+var merchPrices;
+var merchURLs;
 
-let merchPrices = {
-  "shirt" : "0.005",
-  "hoodie" : "0.007",
-  "test": "0.001",
-  "anothertest": "0.001"
-};
-//TODO MONGO Integration
+const getData = () => {
+
+    fetch('http://localhost:8000/prices')
+    .then(res => res.json())
+    .then(data => merchPrices = data)
+    .then(() => console.log(merchPrices));
+
+
+    fetch('http://localhost:8000/merchURLs')
+    .then(res => res.json())
+    .then(data => merchURLs = data)
+    .then(() => console.log(merchURLs));
+
+    setTimeout(() => {
+        console.log(merchPrices);
+        console.log(merchURLs);
+
+        calculateBill();
+    }, 1000);
+}
+
+getData();
 
 let merchArray = Object.values(merchURLs);
 
