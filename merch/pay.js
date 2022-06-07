@@ -31,7 +31,15 @@ const getData = async () => {
 
 getData();
 
-var userInfo = {};
+var userInfo = {
+    walletAddress: cookieObj.userAddress,
+    mailaddress: "",
+    email: "",
+    discordNickname: "",
+    totalBillingAmount: 0,
+    generatedMerch: cookieObj.selectedMerch,
+    transactionConfirmed: false
+};
 
 document.getElementById("pay").onclick = () => {
     let allAreFilled = true;
@@ -43,8 +51,25 @@ document.getElementById("pay").onclick = () => {
       alert('Fill all the fields');
     }
 
-    //construct user info from input fields
-    let formData = document.forms.userData;
+    //REFERENCES 
+    /**
+     * walletAddress: "0x0..."
+     * mailaddress: "JohnStreet"
+     * email: "test@example.com"
+     * discordNickname: "John_Doe#0001"
+     * totalBillingAmount: 100
+     * generatedMerch: Array
+     * transactionConfirmed: true
+     */
+
+    //reconstrut user info from input fields
+    userInfo.walletAddress = cookieObj.userAddress;
+    userInfo.mailaddress = document.getElementById("mailaddress").value;
+    userInfo.email = document.getElementById("email").value;
+    userInfo.discordNickname = document.getElementById("nick").value;
+    userInfo.totalBillingAmount = totalBill;
+    userInfo.generatedMerch = cookieObj.selectedMerch;
+    userInfo.transactionConfirmed = false;
 
     payBill();
 };
@@ -68,26 +93,26 @@ const payBill = async () => {
     const transaction = await Moralis.transfer(options);
     const result = await transaction.wait(); //Waits for atleast One confirmation
     alert("Waiting for confirmation");
-    setTimeout(() => {
-        if (Object.keys(result).length === 0){
-            alert("Transaction Failed");
-        }
-        else {
-            alert("Transaction Successful");
-            redirect();
-        }
-    }, 5000);
+    if (Object.keys(result).length === 0){
+        alert("Transaction Failed");
+    }
+    else {
+        alert("Transaction Confirmed");
+        userInfo.transactionConfirmed = true;
+    }
 
     //forwarding user response to database
-    //let data = /*USER DATA*/;
+    let data = userInfo;
 
-    fetch("/post/data/here", {
+    fetch("http:localhost:8000/pay", {
     method: "POST",
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(data)
     }).then(res => {
     console.log("Response Forwarded! response: ", res);
     });
+
+    redirect();
 }
 
 //If successfull then redirect to Thankyou.html
