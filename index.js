@@ -12,6 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.static("."));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (request, response) => {
     fs.readFile('./index.html', 'utf8', (err, html) => {
         if (err) {
@@ -49,9 +52,24 @@ app.get('/merchURLs', (request, response) => {
     });
 });
 
-app.post('/pay', async (request, response) => {
-    const userInfo = JSON.parse(request.body);
+app.post('/pay', (request, response) => {
+    const userInfo = request.body;
+    
+    if (createUserHandler(userInfo)){
+        response.send('Success')
+    }
+    else {
+        response.send('Failed')
+    }
+});
 
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
+});
+
+
+//=========================== EFFECTUATORS =================================
+const createUserHandler = async (userInfo) => {
     const uri = "mongodb+srv://WhoopdoopMerch:xOE8g0I1VIF6JTiS@whoopdoopmerch.l9twx.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
     
@@ -63,18 +81,13 @@ app.post('/pay', async (request, response) => {
     }
     catch (err) {
         console.log(err);
+        return false;
     }
     finally {
         await client.close();
+        return true;        
     }
-
-    response.send('Success');
-});
-
-app.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`);
-});
-
+}
 
 //Creates a User in the database
 const createUser = async (client, newUser) => {
