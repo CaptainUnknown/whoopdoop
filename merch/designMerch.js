@@ -1,13 +1,23 @@
+const parseCookie = str =>
+str
+.split(';')
+.map(v => v.split('='))
+.reduce((acc, v) => {
+  acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+  return acc;
+}, {});
+
+const cookieObj = parseCookie(document.cookie);
+
 //Checks whether the user is authenticated
-if (document.cookie.userAddress == undefined) {
-  //window.location.replace("/merch/merch.html");
+if (cookieObj.userAddress == undefined) {
+  window.location.replace("/merch/merch.html");
 }
+
 
 //============================Image Generation================================
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
-
-freeImg.addEventListener('mousedown', moveImg);
 
 const moveImg = (e) => {
     
@@ -33,24 +43,26 @@ const moveImg = (e) => {
       });
 }
 
+freeImg.addEventListener('mousedown', moveImg);
+
+const takeshot = () => {
+  const outputElm = document.getElementById('output');
+  outputElm.innerHTML = "";
+  html2canvas(screenshot).then(
+      function (canvas) {
+          //outputElm.appendChild(canvas);
+          link.style.display = 'inline';
+          link.addEventListener('click', function(ev) {
+              link.href = canvas.toDataURL();
+              link.download = "mycanvas.png";
+          }, false);
+      });
+}
+
 const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
 screenshotBtn.addEventListener('click', takeshot);
 var link = document.getElementById('dl-link');
-
-const takeshot = () => {
-    const outputElm = document.getElementById('output');
-    outputElm.innerHTML = "";
-    html2canvas(screenshot).then(
-        function (canvas) {
-            //outputElm.appendChild(canvas);
-            link.style.display = 'inline';
-            link.addEventListener('click', function(ev) {
-                link.href = canvas.toDataURL();
-                link.download = "mycanvas.png";
-            }, false);
-        });
-}
 
 /*
 const imgRo = new ResizeObserver((entries) => {
@@ -75,3 +87,10 @@ document.getElementById('canvas-img').src = canvasSrc;
 document.getElementById('free-img').src = freeImgSrc;
 
 //==========================================================================
+
+let next3 = document.getElementById("btn-merchDesigned");
+next3.addEventListener('click', () => {
+  count++;
+  storeUserAddress();
+  window.location.replace("selectMerch.html");
+});
