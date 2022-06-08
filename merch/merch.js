@@ -8,12 +8,16 @@ console.log("window.location", window.location.pathname);
 window.onload = () => {
   document.getElementById("btn-nftsSelected").style.visibility = "hidden";
   let user = Moralis.User.current();
-    console.log("user", user)
+    console.log("user", user);
     if(user){
         document.getElementById("btn-login").style.visibility = "hidden";
+        document.getElementById("btn-logout").style.visibility = "visible";
+        getNFTs();
+        generateTable();
     }
-    else{
-        document.getElementById("btn-logout").style.visibility = "hidden";
+    if(!user){
+      document.getElementById("btn-login").style.visibility = "visible";
+      document.getElementById("btn-logout").style.visibility = "hidden";
     }
 };
 
@@ -189,13 +193,12 @@ const getNFTs = async() => {
 var selectedImages = [];
 
 //TODO: Fix not every image being selectable
-//TODO: Fix Z index issue
 const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
       let imageContainer = document.getElementById("image-container");
       let image = imageContainer.appendChild(document.createElement("li"));
-      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i+1) + "\" /><label for=\"cb" +(i+1)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
-      let checkbox = document.getElementById("cb" + (i+1));
+      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
+      let checkbox = document.getElementById("cb" + (i));
       checkbox.addEventListener( 'change', function() {
         if(this.checked) {
           selectedImages.push(ethNFTsImagesURLs[i]);
