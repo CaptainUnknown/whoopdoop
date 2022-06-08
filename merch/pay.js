@@ -68,7 +68,7 @@ document.getElementById("pay").onclick = () => {
     userInfo.email = document.getElementById("email").value;
     userInfo.discordNickname = document.getElementById("nick").value;
     userInfo.totalBillingAmount = totalBill;
-    userInfo.generatedMerch = cookieObj.selectedMerch;
+    userInfo.generatedMerch = cookieObj.generatedMerch;
     userInfo.transactionConfirmed = false;
 
     payBill();
