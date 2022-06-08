@@ -11,7 +11,7 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
+  //window.location.replace("/merch/merch.html");
 }
 
 //---Generate Table
@@ -20,26 +20,29 @@ var selectedImages = [];
 //makes a selectable list of merch images
 const generateTable = () => {
     for(let i = 0; i < 4; i++){
-        let checkbox = document.getElementById("cb" + (i+1));
-        checkbox.addEventListener( 'change', function() {
+      let imageContainer = document.getElementById("image-container");
+      let image = imageContainer.appendChild(document.createElement("li"));
+      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchURLs[i] +"\" /></label></li>";
+      let checkbox = document.getElementById("cb" + (i));
+      checkbox.addEventListener( 'change', function() {
         if(this.checked) {
-            selectedImages.push(merchArray[i]);
-            console.log("item selected", selectedImages);
+          selectedImages.push(merchArray[i]);
+          console.log("item selected", selectedImages);
         } else {
-            for(let j = 0; j < selectedImages.length; j++) {
-              if(selectedImages[j] == merchArray[i]) {
-                selectedImages.splice(j, 1);
-                console.log("item removed", selectedImages);
-              }
+          for(let j = 0; j < selectedImages.length; j++) {
+            if(selectedImages[j] == merchArray[i]) {
+              selectedImages.splice(j, 1);
+              console.log("item removed", selectedImages);
             }
           }
+        }
       });    
     }
 }
 
 
 var merchPrices;
-var merchURLs;
+var merchURLs = ["https://picsum.photos/seed/1/100", "https://picsum.photos/seed/2/100", "https://picsum.photos/seed/3/100", "https://picsum.photos/seed/4/100"];
 
 const getData = async () => {
 
@@ -76,5 +79,5 @@ const getData = async () => {
 
   console.log("userAddress", document.cookie);
 }
-
-getData();
+generateTable(); //REMOVE IT LATER
+//getData();
