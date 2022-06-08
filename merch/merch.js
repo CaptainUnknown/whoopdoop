@@ -14,7 +14,6 @@ window.onload = () => {
     }
     else{
         document.getElementById("btn-logout").style.visibility = "hidden";
-        
     }
 };
 

@@ -1,3 +1,4 @@
+/*
 const parseCookie = str =>
 str
 .split(';')
@@ -9,13 +10,32 @@ str
 
 const cookieObj = parseCookie(document.cookie);
 
-//Checks whether the user is authenticated
-if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
+var NFTs = cookieObj.NFTs;
+console.log(NFTs);
+var merchs = cookieObj.selectedMerch;
+console.log(merchs);
+*/
+
+var NFTs = ["https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png", "https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/2.png"];
+console.log(NFTs);
+var merchs = ['https://i.imgur.com/YXtHGMF.png', 'https://i.imgur.com/4A0QeJi.png'];
+console.log(merchs);
+var count = 0; //current itterating image counter
+
+const updateImageDisplay = () => {
+  document.getElementById("canvas-img").src = merchs[count];
+  document.getElementById("free-img").src = NFTs[count];
+  count++;
 }
+
+//Checks whether the user is authenticated
+//if (cookieObj.userAddress == undefined) {
+  //window.location.replace("/merch/merch.html");
+//}
 
 
 //============================Image Generation================================
+var generatedImages = [];
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
 
@@ -23,22 +43,17 @@ const moveImg = (e) => {
     
     const shiftX = e.pageX - freeImgContainer.getBoundingClientRect().left;
     const shiftY = e.pageY - freeImgContainer.getBoundingClientRect().top;
-    function moveAt(pageX, pageY) {
-        //freeImg.style.left = pageX-shiftX-10+'px';
-        //freeImg.style.top = pageY-shiftY-35+'px';
+    const moveAt = (pageX, pageY) => {
         freeImgContainer.style.left = pageX-shiftX+'px';
         freeImgContainer.style.top = pageY-shiftY+'px';
-      }
-    
-     // moveAt(e.pageX, e.pageY);
-  
-      function onMouseMove(e) {
+      }  
+      const onMouseMove = (e) => {
         if(e.target == document.querySelector("#free-img"))
           moveAt(e.pageX, e.pageY);
       }
     
       document.addEventListener('mousemove', onMouseMove);
-      freeImgContainer.addEventListener("mouseup", function() {
+      freeImgContainer.addEventListener("mouseup", () => {
         document.removeEventListener('mousemove', onMouseMove);
       });
 }
@@ -49,12 +64,15 @@ const takeshot = () => {
   const outputElm = document.getElementById('output');
   outputElm.innerHTML = "";
   html2canvas(screenshot).then(
-      function (canvas) {
+      (canvas) => {
           //outputElm.appendChild(canvas);
           link.style.display = 'inline';
-          link.addEventListener('click', function(ev) {
-              link.href = canvas.toDataURL();
-              link.download = "mycanvas.png";
+          link.addEventListener('click', (ev) => {
+            link.href = canvas.toDataURL();
+            link.download = "mycanvas.png";
+
+            upload(link.href);
+            updateImageDisplay();
           }, false);
       });
 }
@@ -63,22 +81,6 @@ const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
 screenshotBtn.addEventListener('click', takeshot);
 var link = document.getElementById('dl-link');
-
-/*
-const imgRo = new ResizeObserver((entries) => {
-  entries.forEach(entry => {
-    //if(entry.target == freeImgContainer)
-    {
-      console.log(freeImg.offsetHeight);
-      
-      freeImgContainer.style = 'height: "max-content"';
-      freeImgContainer.style.width = freeImg.offsetWidth+'px';
-    }
-
-  }); 
-});
-imgRo.observe(freeImgContainer);
-*/
 
 var canvasSrc = 'canvas.jpg';
 var freeImgSrc = 'free.png';
@@ -90,7 +92,25 @@ document.getElementById('free-img').src = freeImgSrc;
 
 let next3 = document.getElementById("btn-merchDesigned");
 next3.addEventListener('click', () => {
-  count++;
-  storeUserAddress();
-  window.location.replace("selectMerch.html");
+  storeGeneratedImages();
+  window.location.replace("pay.html");
 });
+
+const upload = async (image) => {
+  fetch('https://api.upload.io/v1/files/basic', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'image/jpeg',
+        'Authorization': 'Bearer public_FW25ar69TXtVNNJie6Me8MCC25Rs'
+    },
+    body: image
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    generatedImages.push(res.fileUrl);
+  });
+}
+
+const storeGeneratedImages = () => {
+  document.cookie = "GeneratedMerch=" + JSON.stringify(generatedImages);
+}
