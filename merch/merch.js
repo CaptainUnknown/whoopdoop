@@ -154,40 +154,30 @@ console.log(ethNFTs);
 
 
 const getNFTs = async() => {
-    const packet = { chain: 'eth', address: currentUserAddress };
-    //const ethNFTs = await Moralis.Web3API.account.getNFTs(packet);
+  const packet = { chain: "eth", address: currentUserAddress, token_address: "0x565AbC3FEaa3bC3820B83620f4BbF16B5c4D47a3" };
+  //const ethNFTs = await Moralis.Web3API.account.getNFTsForContract(packet);
+  for(let i = 0; i < ethNFTs.length; i++) {
+    ethNFTsImagesIPFS.push(ethNFTs[i].image);
+  }
+  console.log("ethNFTsImagesIPFS", ethNFTsImagesIPFS);
+  for(let i = 0; i < ethNFTsImagesIPFS.length; i++){
+    let temp = ethNFTsImagesIPFS[i];
+    let tempIDs = temp.substring(7);
+    ethNFTsContentIDs.push(tempIDs);
+    console.log(ethNFTsImagesURLs);
     
-    for(let i = 0; i < ethNFTs.length; i++) {
-        let tempNFTObj = ethNFTs[i];
-        let traits = Object.getOwnPropertyNames(tempNFTObj);
-        for(let j = 0; j < traits.length; j++){
-            if(traits[j] == "image"){
-                ethNFTsImagesIPFS.push(tempNFTObj.image);
-            }
-        }
-        console.log("tempNFTObj", tempNFTObj);
-    }
-    console.log("ethNFTsImagesIPFS", ethNFTsImagesIPFS);
-    for(let i = 0; i < ethNFTsImagesIPFS.length; i++){
-        console.log("Loop entered", ethNFTsImagesIPFS[i]);
-        let temp = ethNFTsImagesIPFS[i];
-        let tempIDs = temp.substring(7);
-        ethNFTsContentIDs.push(tempIDs);
-        console.log(ethNFTsImagesURLs);
-
-        ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
-
-        console.log(ethNFTsImagesURLs[i]);
-
-        generateTable();
-    }
-
-    if(ethNFTsImagesURLs.length == 0){
-        alert("No NFTs found");
-    }
-    else{
-      document.getElementById("btn-nftsSelected").style.visibility = "visible";
-    }
+    ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
+    
+    console.log(ethNFTsImagesURLs[i]);
+  }
+  
+  if(ethNFTsImagesURLs.length == 0){
+    alert("No NFTs found");
+  }
+  else{
+    document.getElementById("btn-nftsSelected").style.visibility = "visible";
+  }
+  generateTable();
 }
 
 var selectedImages = [];
@@ -195,22 +185,22 @@ var selectedImages = [];
 //TODO: Fix not every image being selectable
 const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
-      let imageContainer = document.getElementById("image-container");
-      let image = imageContainer.appendChild(document.createElement("li"));
-      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
-      let checkbox = document.getElementById("cb" + (i));
-      checkbox.addEventListener( 'change', function() {
-        if(this.checked) {
-          selectedImages.push(ethNFTsImagesURLs[i]);
-          console.log("item selected", selectedImages);
-        } else {
-          for(let j = 0; j < selectedImages.length; j++) {
-            if(selectedImages[j] == ethNFTsImagesURLs[i]) {
-              selectedImages.splice(j, 1);
-              console.log("item removed", selectedImages);
-            }
+    let imageContainer = document.getElementById("image-container");
+    let image = imageContainer.appendChild(document.createElement("li"));
+    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
+    let checkbox = document.getElementById("cb" + (i));
+    checkbox.addEventListener( 'change', function() {
+      if(this.checked) {
+        selectedImages.push(ethNFTsImagesURLs[i]);
+        console.log("item selected", selectedImages);
+      } else {
+        for(let j = 0; j < selectedImages.length; j++) {
+          if(selectedImages[j] == ethNFTsImagesURLs[i]) {
+            selectedImages.splice(j, 1);
+            console.log("item removed", selectedImages);
           }
         }
+      }
     });    
   }
 }
