@@ -75,8 +75,9 @@ const takeshot = () => {
           link.addEventListener('click', (ev) => {
             link.href = canvas.toDataURL();
             link.download = "mycanvas.png";
-
-            upload(link.href);
+            
+            let image = base64ToBlob(canvas.toDataURL());
+            upload(image);
             updateImageDisplay();
           }, false);
       });
@@ -121,4 +122,16 @@ const upload = async (image) => {
 
 const storeGeneratedImages = () => {
   document.cookie = "GeneratedMerch=" + JSON.stringify(generatedImages);
+}
+
+
+//Convert base64 to blob
+const base64ToBlob = (base64) => {
+  const byteString = atob(base64);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const int8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    int8Array[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([int8Array], { type: 'image/png' });
 }
