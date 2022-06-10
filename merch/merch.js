@@ -6,8 +6,6 @@ Moralis.start({ serverUrl, appId });
 console.log("window.location", window.location.pathname);
 
 window.onload = () => {
-  getNFTs();        // REMOVE THIS
-  generateTable(); //  REMOVE THIS
   document.getElementById("btn-nftsSelected").style.visibility = "hidden";
   let user = Moralis.User.current();
     console.log("user", user);
@@ -16,7 +14,6 @@ window.onload = () => {
         document.getElementById("btn-logout").style.visibility = "visible";
         document.getElementById("btn-nftsSelected").style.visibility = "visible";
         getNFTs();
-        generateTable();
     }
     if(!user){
       document.getElementById("btn-login").style.visibility = "visible";
@@ -129,33 +126,7 @@ const ethNFTs = [
       }
     ]
     },
-    {
-        "name": "Wenolin",
-        "description": "test1",
-        "image": "ipfs://QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png",
-        "animation_url": "ipfs://QmcoAe8mixqscd6PTommSZpFF1oh46wgu1hX4x1gy5dYKG/1.glb",
-        "attributes": [
-          {
-            "trait_type": "House",
-            "value": "Alucar"
-          },
     
-          {
-            "trait_type": "Type",
-            "value": "Sword"
-          },
-    
-          {
-            "trait_type": "Rarity",
-            "value": "Standard"
-          },
-    
-          {
-            "trait_type": "Edition",
-            "value": "First Edition"
-          }
-        ]
-        }
 ]
 console.log(ethNFTs);
 //=========================================
@@ -167,9 +138,11 @@ const getNFTs = async() => {
   for(let i = 0; i < ethNFTs.length; i++) {
     ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }
+  console.log(ethNFTsContentIDs);
   for(let i = 0; i < ethNFTsContentIDs.length; i++) {
     ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
   }
+  console.log(ethNFTsImagesURLs);
   
   if(ethNFTsImagesURLs.length == 0){
     alert("No NFTs found");
@@ -184,19 +157,13 @@ var selectedImages = [];
 
 //TODO: Fix not every image being selectable
 const generateTable = () => {
+  console.log(ethNFTsImagesURLs.length);
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
     let imageContainer = document.getElementById("image-container");
     let image = imageContainer.appendChild(document.createElement("li"));
-    //let fullString = "<input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label>";
-    //console.log(fullString);
-    //image.innerHTML = fullString;
-    let imageInput = document.appendChild(document.createElement("input"));
-    imageInput.type = "checkbox";
-    imageInput.id = "cb" + i;
-    let imageInputLabel = imageInput.document.appendChild(document.createElement("label"));
-    imageInputLabel.for = "cb" + i;
-    let imageInputLabelImage = imageInputLabel.document.appendChild(document.createElement("img"));
-    imageInputLabelImage.src = ethNFTsImagesURLs[i];
+    let fullString = "<input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label>";
+    console.log(fullString);
+    image.innerHTML = fullString;
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', function() {
       if(this.checked) {
