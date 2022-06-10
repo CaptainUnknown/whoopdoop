@@ -6,18 +6,22 @@ Moralis.start({ serverUrl, appId });
 console.log("window.location", window.location.pathname);
 
 window.onload = () => {
+  getNFTs();        // REMOVE THIS
+  generateTable(); //  REMOVE THIS
   document.getElementById("btn-nftsSelected").style.visibility = "hidden";
   let user = Moralis.User.current();
     console.log("user", user);
     if(user){
         document.getElementById("btn-login").style.visibility = "hidden";
         document.getElementById("btn-logout").style.visibility = "visible";
+        document.getElementById("btn-nftsSelected").style.visibility = "visible";
         getNFTs();
         generateTable();
     }
     if(!user){
       document.getElementById("btn-login").style.visibility = "visible";
       document.getElementById("btn-logout").style.visibility = "hidden";
+      document.getElementById("btn-nftsSelected").style.visibility = "hidden";
     }
 };
 
@@ -38,7 +42,7 @@ const login = async () => {
             })
             .catch(function(error) {
                 console.log(error);
-                alert(error.message);``
+                alert(error.message);
             });
     }
     setTimeout(function() {
@@ -50,7 +54,11 @@ const login = async () => {
 }
   
 const logOut = async () => {
-    await Moralis.User.logOut();
+    await Moralis.User.logOut()
+    .catch((error) => {
+      console.log(error);
+      alert(error.message);
+    });
     console.log("logged out");
     setTimeout(function(){
         document.getElementById("btn-logout").style.visibility = "hidden";
@@ -179,9 +187,16 @@ const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
     let imageContainer = document.getElementById("image-container");
     let image = imageContainer.appendChild(document.createElement("li"));
-    let fullString = "<input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label>";
-    console.log(fullString);
-    image.innerHTML = fullString;
+    //let fullString = "<input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label>";
+    //console.log(fullString);
+    //image.innerHTML = fullString;
+    let imageInput = document.appendChild(document.createElement("input"));
+    imageInput.type = "checkbox";
+    imageInput.id = "cb" + i;
+    let imageInputLabel = imageInput.document.appendChild(document.createElement("label"));
+    imageInputLabel.for = "cb" + i;
+    let imageInputLabelImage = imageInputLabel.document.appendChild(document.createElement("img"));
+    imageInputLabelImage.src = ethNFTsImagesURLs[i];
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', function() {
       if(this.checked) {

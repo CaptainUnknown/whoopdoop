@@ -51,7 +51,7 @@ document.getElementById("pay").onclick = () => {
       alert('Fill all the fields');
     }
 
-    //REFERENCES 
+    //REFERENCE
     /**
      * walletAddress: "0x0..."
      * mailaddress: "JohnStreet"
@@ -70,7 +70,8 @@ document.getElementById("pay").onclick = () => {
     userInfo.totalBillingAmount = totalBill;
     userInfo.generatedMerch = cookieObj.generatedMerch;
     userInfo.transactionConfirmed = false;
-
+    
+    calculateBill();
     payBill();
 };
 
@@ -83,6 +84,8 @@ const calculateBill = () => {
     }
 }
 
+
+
 //Prompts the user to transfer ERC 20 Tokens
 const payBill = async () => {
     const options = {
@@ -91,8 +94,9 @@ const payBill = async () => {
         receiver: "0x..", //ADD OWNER ADDRESS
     };
     const transaction = await Moralis.transfer(options);
-    const result = await transaction.wait(); //Waits for atleast One confirmation
     alert("Waiting for confirmation");
+    const result = await transaction.wait(); //Waits for atleast One confirmation
+    
     if (Object.keys(result).length === 0){
         alert("Transaction Failed");
     }
@@ -101,11 +105,10 @@ const payBill = async () => {
         userInfo.transactionConfirmed = true;
     }
 
-    //forwarding user response to database
+    // The parameters we are gonna pass to the fetch function
     let data = userInfo;
     let packet = JSON.stringify(data);
-
-    // The parameters we are gonna pass to the fetch function
+    
     fetch('http://localhost:8000/pay', { 
         method: 'POST', 
         body: packet,
