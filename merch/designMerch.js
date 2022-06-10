@@ -18,7 +18,7 @@ console.log(merchs);
 
 var NFTs = ["https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png", "https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/2.png"];
 console.log(NFTs);
-var merchs = ['https://i.imgur.com/YXtHGMF.png', 'https://i.imgur.com/4A0QeJi.png'];
+var merchs = ['https://picsum.photos/seed/2/100', 'https://i.imgur.com/4A0QeJi.png'];
 console.log(merchs);
 var count = 0; //current itterating image counter
 
@@ -40,9 +40,11 @@ const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
 
 const moveImg = (e) => {
+
+    freeImgContainer.style.position = "absolute";
     
-    const shiftX = e.pageX - freeImgContainer.getBoundingClientRect().left;
-    const shiftY = e.pageY - freeImgContainer.getBoundingClientRect().top;
+    const shiftX = e.clientX - freeImgContainer.getBoundingClientRect().left;
+    const shiftY = e.clientY - freeImgContainer.getBoundingClientRect().top;
     const moveAt = (pageX, pageY) => {
         freeImgContainer.style.left = pageX-shiftX+'px';
         freeImgContainer.style.top = pageY-shiftY+'px';
@@ -54,6 +56,9 @@ const moveImg = (e) => {
     
       document.addEventListener('mousemove', onMouseMove);
       freeImgContainer.addEventListener("mouseup", () => {
+        document.removeEventListener('mousemove', onMouseMove);
+      });
+      freeImgContainer.addEventListener("mouseexit", () => {
         document.removeEventListener('mousemove', onMouseMove);
       });
 }
@@ -82,12 +87,15 @@ const screenshotBtn = document.getElementById('screenshot-btn');
 screenshotBtn.addEventListener('click', takeshot);
 var link = document.getElementById('dl-link');
 
+updateImageDisplay();
+
+/*
 var canvasSrc = 'canvas.jpg';
 var freeImgSrc = 'free.png';
 
 document.getElementById('canvas-img').src = canvasSrc;
 document.getElementById('free-img').src = freeImgSrc;
-
+*/
 //==========================================================================
 
 let next3 = document.getElementById("btn-merchDesigned");
