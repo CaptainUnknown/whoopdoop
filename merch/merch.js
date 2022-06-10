@@ -157,18 +157,10 @@ const getNFTs = async() => {
   const packet = { chain: "eth", address: currentUserAddress, token_address: "0x565AbC3FEaa3bC3820B83620f4BbF16B5c4D47a3" };
   //const ethNFTs = await Moralis.Web3API.account.getNFTsForContract(packet);
   for(let i = 0; i < ethNFTs.length; i++) {
-    ethNFTsImagesIPFS.push(ethNFTs[i].image);
+    ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }
-  console.log("ethNFTsImagesIPFS", ethNFTsImagesIPFS);
-  for(let i = 0; i < ethNFTsImagesIPFS.length; i++){
-    let temp = ethNFTsImagesIPFS[i];
-    let tempIDs = temp.substring(7);
-    ethNFTsContentIDs.push(tempIDs);
-    console.log(ethNFTsImagesURLs);
-    
+  for(let i = 0; i < ethNFTsContentIDs.length; i++) {
     ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
-    
-    console.log(ethNFTsImagesURLs[i]);
   }
   
   if(ethNFTsImagesURLs.length == 0){
@@ -187,7 +179,9 @@ const generateTable = () => {
   for(let i = 0; i < ethNFTsImagesURLs.length; i++){
     let imageContainer = document.getElementById("image-container");
     let image = imageContainer.appendChild(document.createElement("li"));
-    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label></li>";
+    let fullString = "<input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + ethNFTsImagesURLs[i] +"\" /></label>";
+    console.log(fullString);
+    image.innerHTML = fullString;
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', function() {
       if(this.checked) {
@@ -202,7 +196,7 @@ const generateTable = () => {
         }
       }
     });    
-  }
+  }  
 }
 
 let next1 = document.getElementById("btn-nftsSelected");
