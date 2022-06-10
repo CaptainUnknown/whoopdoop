@@ -6,6 +6,7 @@ const axios = require('axios');
 const cors = require('cors'); 
 const fs = require('fs');
 const { userInfo } = require('os');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.static("."));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Home page
 app.get('/', (request, response) => {
     fs.readFile('./index.html', 'utf8', (err, html) => {
         if (err) {
@@ -24,6 +26,7 @@ app.get('/', (request, response) => {
     });
 });
 
+//=========================== ROUTES =================================
 app.get('/merch', (request, response) => {
     fs.readFile('./merch/merch.html', 'utf8', (err, html) => {
         if (err) {
@@ -33,7 +36,8 @@ app.get('/merch', (request, response) => {
     });
 });
 
-
+//=========================== REQUESTS =================================
+//Prices of the merch
 app.get('/prices', (request, response) => {
     fs.readFile('./merch/merchPrices.json', 'utf8', (err, json) => {
         if (err) {
@@ -43,6 +47,7 @@ app.get('/prices', (request, response) => {
     });
 });
 
+//URLs of the merch images
 app.get('/merchURLs', (request, response) => {
     fs.readFile('./merch/merchURLs.json', 'utf8', (err, json) => {
         if (err) {
@@ -52,14 +57,16 @@ app.get('/merchURLs', (request, response) => {
     });
 });
 
+//payment gateway
 app.post('/pay', (request, response) => {
     const userInfo = request.body;
     
     if (createUserHandler(userInfo)){
-        response.send('Success')
+        response.send('Success');
+        writeEmail(userInfo);
     }
     else {
-        response.send('Failed')
+        response.send('Failed');
     }
 });
 
@@ -94,4 +101,30 @@ const createUser = async (client, newUser) => {
     const result = await client.db('WhoopdoopMerch').collection('users').insertOne(newUser);
 
     console.log(`New User Created: ${result.insertedId}`);
+}
+
+//Generate an Email
+const writeEmail = (userInfo) => {
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'youremail@gmail.com', //  ADD EMAIL
+          pass: 'yourpassword'        //   ADD PASSWORD
+        }
+    });
+
+    var mailOptions = {
+        from: 'youremail@gmail.com', // ADD EMAIL
+        to: userInfo.email,
+        subject: 'Merch Request' + userInfo._id,
+        text: 'User Wallet Addresses: ' + userInfo.walletAddress + '\n' + 'User Mail Addresses: ' + userInfo.mailaddress + '\n' + 'User Discord Nick: ' + userInfo.discordNickname + '\n' + 'User Bill Amount: ' + userInfo.totalBillingAmount + '\n' + 'User Generated Merch: ' + userInfo.generatedMerch + '\n' + 'Transaction Confirmed: ' + userInfo.transactionConfirmed + '\n',
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+    });
 }
