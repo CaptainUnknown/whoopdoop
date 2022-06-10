@@ -114,9 +114,9 @@ const writeEmail = (userInfo) => {
     });
 
     var mailOptions = {
-        from: 'youremail@gmail.com', // ADD EMAIL
-        to: userInfo.email,
-        subject: 'Merch Request' + userInfo._id,
+        from: 'fromThis@gmail.com', // ADD EMAIL
+        to: 'toThis@gmail.com', // ADD EMAIL
+        subject: 'Merch Request Recieved',
         text: 'User Wallet Addresses: ' + userInfo.walletAddress + '\n' + 'User Mail Addresses: ' + userInfo.mailaddress + '\n' + 'User Discord Nick: ' + userInfo.discordNickname + '\n' + 'User Bill Amount: ' + userInfo.totalBillingAmount + '\n' + 'User Generated Merch: ' + userInfo.generatedMerch + '\n' + 'Transaction Confirmed: ' + userInfo.transactionConfirmed + '\n',
     };
 
