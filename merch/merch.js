@@ -99,6 +99,7 @@ var ethNFTsImagesURLs = []; //array of NFT images
 const getNFTs = async() => {
   const packet = { chain: 'eth', address: currentUserAddress };
   const ethNFTs = await Moralis.Web3API.account.getNFTs(packet);
+  console.log(ethNFTs);
   for(let i = 0; i < ethNFTs.length; i++) {
     ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }
