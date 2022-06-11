@@ -91,7 +91,7 @@ document.getElementById("btn-login").addEventListener('click', () => {
   login();
 });
 
-var ethNFTs = [];
+var ethNFTs;
 var ethNFTsImagesIPFS = []; //array of IPFS urls
 var ethNFTsContentIDs = []; //array of content IDs
 var ethNFTsImagesURLs = []; //array of NFT images
@@ -104,7 +104,7 @@ const getNFTs = async() => {
   }
   
   console.log(ethNFTs);
-  for(let i = 0; i < ethNFTs.length; i++) {
+  for(let i = 0; i < rawNFTs.result.length; i++) {
     ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }
   console.log(ethNFTsContentIDs);
