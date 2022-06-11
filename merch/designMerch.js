@@ -77,80 +77,68 @@ var generatedImages = [];
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
 
-const moveImg = (e) => {
+const position = { x: 0, y: 0 }
 
-    freeImgContainer.style.position = "absolute";
-    
-    const shiftX = e.clientX - freeImgContainer.getBoundingClientRect().left;
-    const shiftY = e.clientY - freeImgContainer.getBoundingClientRect().top;
-    const moveAt = (pageX, pageY) => {
-        freeImgContainer.style.left = pageX-shiftX+'px';
-        freeImgContainer.style.top = pageY-shiftY+'px';
-      }  
-      const onMouseMove = (e) => {
-        if(e.target == document.querySelector("#free-img"))
-          moveAt(e.pageX, e.pageY);
-      }
-    
-      document.addEventListener('mousemove', onMouseMove);
-      freeImgContainer.addEventListener("mouseup", () => {
-        document.removeEventListener('mousemove', onMouseMove);
-      });
-      freeImgContainer.addEventListener("mouseexit", () => {
-        document.removeEventListener('mousemove', onMouseMove);
-      });
-}
+interact('.free-img-container').draggable({
+  listeners: {
+    start (event) {
+      console.log(event.type, event.target)
+    },
+    move (event) {
+      position.x += event.dx
+      position.y += event.dy
 
-freeImg.addEventListener('mousedown', moveImg);
+      event.target.style.transform =
+        `translate(${position.x}px, ${position.y}px)`
+    },
+  }
+});
+interact('#free-img').resizable({
+  margin: 10,
+  edges: { top: true, left: true, bottom: true, right: true },
+  listeners: {
+    move: function (event) {
+      let { x, y } = event.target.dataset
+      console.log(event.target.dataset)
 
-const takeshot = () => {
-  const outputElm = document.getElementById('output');
-  outputElm.innerHTML = "";
-  html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
-      (canvas) => {
-          //outputElm.appendChild(canvas);
-          link.style.display = 'inline';
-          link.addEventListener('click', (ev) => {
-            link.href = canvas.toDataURL();
-            link.download = "My Merch.png";
+      x = (parseFloat(x) || 0) + event.deltaRect.left
+      y = (parseFloat(y) || 0) + event.deltaRect.top
 
-            console.log(canvas.toDataURL());
-            
-            //let image = dataURLtoFile(canvas.toDataURL(), 'generated' + (count) + '.png');
-             // upload(image);
-            //  updateImageDisplay();
-          }, false);
-      });
-}
+      Object.assign(event.target.style, {
+        width: `${event.rect.width}px`,
+        height: `${event.rect.height}px`,
+        transform: `translate(${x}px, ${y}px)`
+      })
 
-const uploadShot = () => {
-  const outputElm = document.getElementById('output');
-  outputElm.innerHTML = "";
-  html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
-      (canvas) => {
-        let dataURI = canvas.toDataURL();
-        console.log(dataURI);
-        let image = dataURLtoFile(canvas.toDataURL(), 'generated' + (count) + '.png');
-        console.log(image);
-        upload(image);
-        updateImageDisplay();
-      });
-}
+      Object.assign(event.target.dataset, { x, y })
+    }
+  },
+  modifiers: [
+    interact.modifiers.aspectRatio({ratio: 'preserve'})]
+});
 
 const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
-screenshotBtn.addEventListener('click', takeshot);
 var link = document.getElementById('dl-link');
+
+const takeshot = () => {
+  html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
+      (canvas) => {
+          link.style.display = 'inline';
+          link.addEventListener('click', (ev) => {
+            link.href = canvas.toDataURL();
+            link.download = "mycanvas.png";
+            
+            let image = base64ToBlob(canvas.toDataURL());
+            upload(image);
+            updateImageDisplay();
+          }, false);
+      });
+}
+screenshotBtn.addEventListener('click', takeshot);
 
 updateImageDisplay();
 
-/*
-var canvasSrc = 'canvas.jpg';
-var freeImgSrc = 'free.png';
-
-document.getElementById('canvas-img').src = canvasSrc;
-document.getElementById('free-img').src = freeImgSrc;
-*/
 //==========================================================================
 
 let next = document.getElementById("btn-next");
