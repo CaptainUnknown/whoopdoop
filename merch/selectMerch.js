@@ -11,31 +11,31 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  //window.location.replace("/merch/merch.html");
+  window.location.replace("/merch/merch.html");
 }
 
 var selectedImages = [];
 //makes a selectable list of merch images
 const generateTable = () => {
-    for(let i = 0; i < 4; i++){
-      let imageContainer = document.getElementById("image-container");
-      let image = imageContainer.appendChild(document.createElement("li"));
-      image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchURLs[i] +"\" /></label></li>";
-      let checkbox = document.getElementById("cb" + (i));
-      checkbox.addEventListener( 'change', function() {
-        if(this.checked) {
-          selectedImages.push(merchArray[i]);
-          console.log("item selected", selectedImages);
-        } else {
-          for(let j = 0; j < selectedImages.length; j++) {
-            if(selectedImages[j] == merchArray[i]) {
-              selectedImages.splice(j, 1);
-              console.log("item removed", selectedImages);
-            }
+  for(let i = 0; i < 4; i++){
+    let imageContainer = document.getElementById("image-container");
+    let image = imageContainer.appendChild(document.createElement("li"));
+    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchURLs[i] +"\" /></label></li>";
+    let checkbox = document.getElementById("cb" + (i));
+    checkbox.addEventListener( 'change', function() {
+      if(this.checked) {
+        selectedImages.push(merchArray[i]);
+        console.log("item selected", selectedImages);
+      } else {
+        for(let j = 0; j < selectedImages.length; j++) {
+          if(selectedImages[j] == merchArray[i]) {
+            selectedImages.splice(j, 1);
+            console.log("item removed", selectedImages);
           }
         }
-      });    
-    }
+      }
+    });
+  }
 }
 
 

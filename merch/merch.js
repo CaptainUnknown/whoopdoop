@@ -96,45 +96,9 @@ var ethNFTsImagesIPFS = []; //array of IPFS urls
 var ethNFTsContentIDs = []; //array of content IDs
 var ethNFTsImagesURLs = []; //array of NFT images
 
-
-// ===================TEMPORARY============
-const ethNFTs = [
-    {
-    "name": "Wenolin",
-    "description": "test1",
-    "image": "ipfs://QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png",
-    "animation_url": "ipfs://QmcoAe8mixqscd6PTommSZpFF1oh46wgu1hX4x1gy5dYKG/1.glb",
-    "attributes": [
-      {
-        "trait_type": "House",
-        "value": "Alucar"
-      },
-
-      {
-        "trait_type": "Type",
-        "value": "Sword"
-      },
-
-      {
-        "trait_type": "Rarity",
-        "value": "Standard"
-      },
-
-      {
-        "trait_type": "Edition",
-        "value": "First Edition"
-      }
-    ]
-    },
-    
-]
-console.log(ethNFTs);
-//=========================================
-
-
 const getNFTs = async() => {
   const packet = { chain: "eth", address: currentUserAddress, token_address: "0x565AbC3FEaa3bC3820B83620f4BbF16B5c4D47a3" };
-  //const ethNFTs = await Moralis.Web3API.account.getNFTsForContract(packet);
+  const ethNFTs = await Moralis.Web3API.account.getNFTsForContract(packet);
   for(let i = 0; i < ethNFTs.length; i++) {
     ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }

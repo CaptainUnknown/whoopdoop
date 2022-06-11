@@ -8,5 +8,5 @@ document.getElementById("shopMore").addEventListener("click", function() {
 });
 
 document.getElementById("shopMore").addEventListener("click", function() {
-    window.location.replace("www.twitter.com"); //ADD PROFILE LINK
+    window.location.replace("https://twitter.com/WDoopsies/"); //ADD PROFILE LINK
 });
