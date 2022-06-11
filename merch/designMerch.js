@@ -72,7 +72,7 @@ freeImg.addEventListener('mousedown', moveImg);
 const takeshot = () => {
   const outputElm = document.getElementById('output');
   outputElm.innerHTML = "";
-  html2canvas(screenshot).then(
+  html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
       (canvas) => {
           //outputElm.appendChild(canvas);
           link.style.display = 'inline';
@@ -92,7 +92,7 @@ const takeshot = () => {
 const uploadShot = () => {
   const outputElm = document.getElementById('output');
   outputElm.innerHTML = "";
-  html2canvas(screenshot).then(
+  html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
       (canvas) => {
         let dataURI = canvas.toDataURL();
         console.log(dataURI);
