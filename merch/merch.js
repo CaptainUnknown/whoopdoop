@@ -108,7 +108,7 @@ const getNFTs = async() => {
   }
   console.log(ethNFTsImagesURLs);
   
-  if(ethNFTsImagesURLs.length == 0){
+  if(ethNFTs.length == 0){
     alert("No NFTs found");
   }
   else{
