@@ -32,6 +32,40 @@ const updateImageDisplay = () => {
   count++;
 }
 
+const generateTable = () => {
+  for(let i = 0; i < merchs.length; i++){
+    let imageContainer = document.getElementById("curretSelector");
+    let image = imageContainer.appendChild(document.createElement("li"));
+    image.innerHTML = "<li><input type=\"checkbox\" class=\"radioCheck\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + NFTs[i] +"\" /></label></li>";
+    image.style.width = 05;
+    let checkbox = document.getElementById("cb" + (i));
+    checkbox.addEventListener( 'change', () => {
+      count = 0;
+      //only one checkbox at a time can be checked & can not be unchecked
+      if(checkbox.checked){
+        for(let j = 0; j < merchs.length; j++){
+          if(j != i){
+            let checkbox = document.getElementById("cb" + (j));
+            checkbox.checked = false;
+          }
+        }
+      }
+      //are all checkboxes unchecked?
+      if(checkbox.checked){
+        for(let j = 0; j < merchs.length; j++){
+          if(j != i){
+            let checkbox = document.getElementById("cb" + (j));
+            checkbox.checked = false;
+          }
+        }
+      }
+      updateImageDisplay();
+    });
+  }
+}
+
+generateTable();
+
 //Checks whether the user is authenticated
 //if (cookieObj.userAddress == undefined) {
   //window.location.replace("/merch/merch.html");
