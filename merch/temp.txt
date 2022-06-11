@@ -1,0 +1,119 @@
+//TEST OBJECTS:
+// ===================TEMPORARY============
+    const ethNFTs = [
+        {
+        "name": "Wenolin",
+        "description": "test1",
+        "image": "ipfs://QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png",
+        "animation_url": "ipfs://QmcoAe8mixqscd6PTommSZpFF1oh46wgu1hX4x1gy5dYKG/1.glb",
+        "attributes": [
+          {
+            "trait_type": "House",
+            "value": "Alucar"
+          },
+    
+          {
+            "trait_type": "Type",
+            "value": "Sword"
+          },
+    
+          {
+            "trait_type": "Rarity",
+            "value": "Standard"
+          },
+    
+          {
+            "trait_type": "Edition",
+            "value": "First Edition"
+          }
+        ]
+        },
+        {
+            "name": "Wenolin",
+            "description": "test1",
+            "image": "ipfs://QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png",
+            "animation_url": "ipfs://QmcoAe8mixqscd6PTommSZpFF1oh46wgu1hX4x1gy5dYKG/1.glb",
+            "attributes": [
+              {
+                "trait_type": "House",
+                "value": "Alucar"
+              },
+        
+              {
+                "trait_type": "Type",
+                "value": "Sword"
+              },
+        
+              {
+                "trait_type": "Rarity",
+                "value": "Standard"
+              },
+        
+              {
+                "trait_type": "Edition",
+                "value": "First Edition"
+              }
+            ]
+            }
+    ]
+    console.log(ethNFTs);
+    //=========================================
+
+
+
+const freeImgContainer = document.querySelector('.free-img-container');
+const freeImg = document.querySelector('#free-img');
+
+freeImg.addEventListener('mousedown', moveImg);
+
+
+
+function moveImg(e) {
+    
+    const shiftX = e.pageX - freeImgContainer.getBoundingClientRect().left;
+    const shiftY = e.pageY - freeImgContainer.getBoundingClientRect().top;
+    function moveAt(pageX, pageY) {
+        freeImgContainer.style.left = pageX-shiftX+'px';
+        freeImgContainer.style.top = pageY-shiftY+'px';
+      }
+    
+     // moveAt(e.pageX, e.pageY);
+  
+      function onMouseMove(e) {
+        if(e.target == document.querySelector("#free-img"))
+          moveAt(e.pageX, e.pageY);
+      }
+    
+      document.addEventListener('mousemove', onMouseMove);
+      freeImgContainer.addEventListener("mouseup", function() {
+        document.removeEventListener('mousemove', onMouseMove);
+      });
+}
+
+const screenshot = document.getElementById('canvas-container');
+const screenshotBtn = document.getElementById('screenshot-btn');
+screenshotBtn.addEventListener('click', takeshot);
+var link = document.getElementById('dl-link');
+
+function takeshot(){
+    const outputElm = document.getElementById('output');
+    outputElm.innerHTML = "";
+    html2canvas(screenshot).then(
+        function (canvas) {
+            //outputElm.appendChild(canvas);
+            link.style.display = 'inline';
+            link.addEventListener('click', function(ev) {
+                link.href = canvas.toDataURL();
+                link.download = "mycanvas.png";
+            }, false);
+        });
+}
+var canvasSrc = 'canvas.jpg';
+var freeImgSrc = 'free.png';
+
+document.getElementById('canvas-img').src = canvasSrc;
+document.getElementById('free-img').src = freeImgSrc;
+
+
+DOWNLOAD BUTTON
+<a href="" id="screenshot-btn" class="inline-flex text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:bg-green-300 rounded text-lg">Download</a>
