@@ -14,8 +14,6 @@ if (cookieObj.userAddress == undefined) {
   //window.location.replace("/merch/merch.html");
 }
 
-//---Generate Table
-// TODO: Currently is not dynamic & is hardcoded in html
 var selectedImages = [];
 //makes a selectable list of merch images
 const generateTable = () => {
@@ -44,27 +42,28 @@ const generateTable = () => {
 var merchPrices;
 var merchURLs = ["https://picsum.photos/seed/1/100", "https://picsum.photos/seed/2/100", "https://picsum.photos/seed/3/100", "https://picsum.photos/seed/4/100"];
 
+var merchArray;
+
 const getData = async () => {
+  
+  await fetch('http://localhost:8000/prices')
+  .then(res => res.json())
+  .then(data => merchPrices = data)
+  .then(() => console.log(merchPrices));
+  
+  await fetch('http://localhost:8000/merchURLs')
+  .then(res => res.json())
+  .then(data => merchURLs = data)
+  .then(() => console.log(merchURLs));
+  
+  console.log(merchPrices);
+  console.log(merchURLs);
+  
 
-    await fetch('http://localhost:8000/prices')
-    .then(res => res.json())
-    .then(data => merchPrices = data)
-    .then(() => console.log(merchPrices));
-
-
-    await fetch('http://localhost:8000/merchURLs')
-    .then(res => res.json())
-    .then(data => merchURLs = data)
-    .then(() => console.log(merchURLs));
-
-    console.log(merchPrices);
-    console.log(merchURLs);
-
-    generateTable();
-
-  let merchArray = Object.values(merchURLs);
+  merchArray = Object.values(merchURLs);
   console.log("merchArray: " + merchArray);
 
+  generateTable();
 
   let next2 = document.getElementById("btn-merchSelected");
   next2.addEventListener('click', () => {
@@ -79,5 +78,4 @@ const getData = async () => {
 
   console.log("userAddress", document.cookie);
 }
-generateTable(); //REMOVE IT LATER
-//getData();
+getData();
