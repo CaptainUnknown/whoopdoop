@@ -67,9 +67,9 @@ const generateTable = () => {
 generateTable();
 
 //Checks whether the user is authenticated
-//if (cookieObj.userAddress == undefined) {
-  //window.location.replace("/merch/merch.html");
-//}
+if (cookieObj.userAddress == undefined) {
+  window.location.replace("/merch/merch.html");
+}
 
 
 //============================Image Generation================================
@@ -143,7 +143,7 @@ updateImageDisplay();
 
 let next = document.getElementById("btn-next");
 next.addEventListener('click', () => {
-  uploadShot();
+  takeshot();
   imageCounter.innerHTML = "You are editing image " + (count+1) + " of " + merchs.length;
 });
 
