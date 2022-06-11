@@ -91,7 +91,7 @@ const payBill = async () => {
     const options = {
         type: "native",
         amount: Moralis.Units.ETH(totalBill),
-        receiver: "0x..", //ADD OWNER ADDRESS
+        receiver: "0x848C5f70aC85173E2bF52a78CF85fEc9E4Dffd20", //ADD OWNER ADDRESS
     };
     const transaction = await Moralis.transfer(options);
     alert("Waiting for confirmation");
