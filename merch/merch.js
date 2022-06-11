@@ -91,7 +91,7 @@ document.getElementById("btn-login").addEventListener('click', () => {
   login();
 });
 
-var ethNFTs;
+var ethNFTs = [];
 var ethNFTsImagesIPFS = []; //array of IPFS urls
 var ethNFTsContentIDs = []; //array of content IDs
 var ethNFTsImagesURLs = []; //array of NFT images
@@ -100,11 +100,11 @@ const getNFTs = async() => {
   const packet = { chain: 'eth', address: currentUserAddress };
   const rawNFTs = await Moralis.Web3API.account.getNFTs(packet);
   for (var i = 0; i < rawNFTs.result.length; i++) {
-    ethNFTs = JSON.parse(rawNFTs.result[i].metadata);
+    ethNFTs.push(JSON.parse(rawNFTs.result[i].metadata));
   }
   
   console.log(ethNFTs);
-  for(let i = 0; i < rawNFTs.result.length; i++) {
+  for(let i = 0; i < ethNFTs.length; i++) {
     ethNFTsContentIDs.push(ethNFTs[i].image.substring(7));
   }
   console.log(ethNFTsContentIDs);
