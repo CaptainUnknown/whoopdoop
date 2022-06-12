@@ -171,6 +171,9 @@ const storeSelectedImages = () => {
 
 //Store user address in cookies
 const storeUserAddress = () => {
+  let tempUserAddress = Moralis.User.current();
+  currentUserAddress = tempUserAddress.attributes.ethAddress;
+  console.log("currentUserAddress", currentUserAddress);
   document.cookie = "userAddress=" + JSON.stringify(currentUserAddress);
 }
 
