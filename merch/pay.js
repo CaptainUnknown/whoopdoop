@@ -33,8 +33,6 @@ const getData = async () => {
     .then(res => res.json())
     .then(data => merchURLs = data)
     .then(() => console.log(merchURLs));
-
-    calculateBill();
 }
 
 getData();
@@ -59,7 +57,7 @@ document.getElementById("pay").onclick = () => {
     if(document.getElementById("mailaddress").value.length == 0) {
         alert("Please Input your Mailing Address to continue...");
     }
-    else{
+    if(document.getElementById("nick").value.length > 0 && document.getElementById("email").value.length > 0 && document.getElementById("mailaddress").value.length > 0){
         userInfo.walletAddress = cookieObj.userAddress;
         userInfo.mailaddress = document.getElementById("mailaddress").value;
         userInfo.email = document.getElementById("email").value;
@@ -86,6 +84,7 @@ document.getElementById("pay").onclick = () => {
 
 var totalBill = 0;
 const calculateBill = () => {
+    totalBill = 0;
     let selectedMerchURLsArray = JSON.parse(cookieObj.selectedMerch);
     let allMerchURLsArray = Object.values(merchURLs);
     let merchPricesArray = Object.values(merchPrices);
@@ -111,6 +110,9 @@ const payBill = async () => {
     .then(() => {
         console.log("Authenticated");
     })
+    .catch(err => {
+        alert(err.message);
+    });
     const options = {
         type: "native",
         amount: Moralis.Units.ETH(totalBill),
@@ -119,11 +121,8 @@ const payBill = async () => {
     const transaction = await Moralis.transfer(options)
     .then(async () => {
         alert("Waiting for confirmation");
-        transact = await transaction.wait(); //Waits for atleast One confirmation
-        if (Object.keys(result).length === 0){
-            alert("Transaction Failed");
-        }
-        else {
+        transact = await transaction.wait()
+        .then(async () => {
             alert("Transaction Confirmed, Press OK to continue");
             userInfo.transactionConfirmed = true;
             let data = userInfo;
@@ -139,9 +138,16 @@ const payBill = async () => {
             });
     
             redirect();
-        }
+        })
+        .catch(error =>{
+            alert("Transaction Failed");
+            console.log(err.message);
+        });
     })
-    .catch(err => {alert(err.message)});    
+    .catch(err => {
+        alert("Transaction Failed");
+        console.log(err.message);
+    });    
 }
 
 //If successfull then redirect to Thankyou.html
