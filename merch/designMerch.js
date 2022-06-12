@@ -31,7 +31,7 @@ const updateImageDisplay = () => {
 }
 
 const generateTable = () => {
-  for(let i = 0; i < merchs.length; i++){
+  for(let i = 0; i < merchs.length - 1; i++){
     let imageContainer = document.getElementById("curretSelector");
     let image = imageContainer.appendChild(document.createElement("li"));
     image.innerHTML = "<li><input type=\"checkbox\" class=\"radioCheck\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + NFTs[i] +"\" /></label></li>";
@@ -40,20 +40,22 @@ const generateTable = () => {
     checkbox.addEventListener( 'change', () => {
       count = 0;
       //only one checkbox at a time can be checked & can not be unchecked
-      if(checkbox.checked){
-        for(let j = 0; j < merchs.length; j++){
-          if(j != i){
-            let checkbox = document.getElementById("cb" + (j));
-            checkbox.checked = false;
+      if(merchs.length > 1){
+        if(checkbox.checked){
+          for(let j = 0; j < merchs.length; j++){
+            if(j != i){
+              let checkbox = document.getElementById("cb" + (j));
+              checkbox.checked = false;
+            }
           }
         }
-      }
-      //are all checkboxes unchecked?
-      if(checkbox.checked){
-        for(let j = 0; j < merchs.length; j++){
-          if(j != i){
-            let checkbox = document.getElementById("cb" + (j));
-            checkbox.checked = false;
+        //are all checkboxes unchecked?
+        if(checkbox.checked){
+          for(let j = 0; j < merchs.length; j++){
+            if(j != i){
+              let checkbox = document.getElementById("cb" + (j));
+              checkbox.checked = false;
+            }
           }
         }
       }
@@ -126,6 +128,7 @@ const takeshot = () => {
           //link.addEventListener('click', (ev) => {
             //link.href = canvas.toDataURL();
             //link.download = "mycanvas.png";
+            console.log(canvas.toDataURL());
             
             let image = dataURLtoFile(canvas.toDataURL());
             upload(image);            
