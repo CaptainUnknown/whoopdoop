@@ -17,10 +17,11 @@ if (cookieObj.userAddress == undefined) {
 var selectedImages = [];
 //makes a selectable list of merch images
 const generateTable = () => {
-  for(let i = 0; i < 4; i++){
+  console.log("generateTable");
+  for(let i = 0; i < merchArray.length; i++){
     let imageContainer = document.getElementById("image-container");
     let image = imageContainer.appendChild(document.createElement("li"));
-    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchURLs[i] +"\" /></label></li>";
+    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchArray[i] +"\" /></label></li>";
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', function() {
       if(this.checked) {
@@ -39,10 +40,11 @@ const generateTable = () => {
 }
 
 
-var merchPrices;
-var merchURLs = ["https://picsum.photos/seed/1/100", "https://picsum.photos/seed/2/100", "https://picsum.photos/seed/3/100", "https://picsum.photos/seed/4/100"];
+var merchPrices = [];
+var merchURLs= {};
 
-var merchArray;
+var merchArray = [];
+console.log(merchArray)
 
 const getData = async () => {
   
@@ -61,7 +63,7 @@ const getData = async () => {
   
 
   merchArray = Object.values(merchURLs);
-  console.log("merchArray: " + merchArray);
+  console.log(merchArray);
 
   generateTable();
 
