@@ -5,6 +5,8 @@ Moralis.start({ serverUrl, appId });
 
 console.log("window.location", window.location.pathname);
 
+let areNFTsStored = false;
+
 window.onload = () => {
   document.getElementById("btn-nftsSelected").style.visibility = "hidden";
   let user = Moralis.User.current();
@@ -13,7 +15,11 @@ window.onload = () => {
         document.getElementById("btn-login").style.visibility = "hidden";
         document.getElementById("btn-logout").style.visibility = "visible";
         document.getElementById("btn-nftsSelected").style.visibility = "visible";
-        getNFTs();
+        if(!areNFTsStored){
+          areNFTsStored = true;
+          getNFTs();
+          console.log("TableGenerated from window.onload"); 
+        }        
     }
     if(!user){
       document.getElementById("btn-login").style.visibility = "visible";
@@ -35,7 +41,11 @@ const login = async () => {
                 document.getElementById("btn-login").style.visibility = "hidden";
                 document.getElementById("btn-logout").style.visibility = "visible";
                 waitForAddress();
-                getNFTs();
+                if(!areNFTsStored){
+                  areNFTsStored = true;
+                  getNFTs();
+                  console.log("TableGenerated from login");
+                } 
             })
             .catch(function(error) {
                 console.log(error);
@@ -61,6 +71,7 @@ const logOut = async () => {
         document.getElementById("btn-logout").style.visibility = "hidden";
         document.getElementById("btn-login").style.visibility = "visible";
    }, 400);
+   window.location.reload();
 }
   
   
@@ -76,7 +87,11 @@ const addressGrabber = async () => {
 const waitForAddress = async() => {
     let t = await addressGrabber();
     console.log("address fetched successfully");
-    getNFTs();
+    if(!areNFTsStored){
+      areNFTsStored = true;
+      getNFTs();
+      console.log("table generated from wait for address");
+    } 
 }
 
 console.log(currentUserAddress);
