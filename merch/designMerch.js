@@ -168,7 +168,7 @@ const upload = async (image) => {
 }
 
 const storeGeneratedImages = () => {
-  document.cookie = "GeneratedMerch=" + JSON.stringify(generatedImages);
+  document.cookie = "generatedMerch=" + JSON.stringify(generatedImages);
 }
 
 //Fix conversion of base64 to blob
