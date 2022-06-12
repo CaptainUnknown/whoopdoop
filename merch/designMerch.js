@@ -8,15 +8,12 @@ str
 }, {});
 
 const cookieObj = parseCookie(document.cookie);
+console.log(cookieObj);
 
-var NFTs = cookieObj.NFTs;
+console.log(cookieObj.selectedNFTs);
+var NFTs = JSON.parse(cookieObj.selectedNFTs);
+var merchs = JSON.parse(cookieObj.selectedMerch);
 console.log(NFTs);
-var merchs = cookieObj.selectedMerch;
-console.log(merchs);
-
-var NFTs = ["https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/1.png", "https://ipfs.io/ipfs/QmVZqAEa8BUQd8qmTfXgZfzRdptzNFMEGxFr2Aifixe56V/2.png"];
-console.log(NFTs);
-var merchs = ['https://picsum.photos/seed/2/100', 'https://picsum.photos/seed/1/100'];
 console.log(merchs);
 var count = 0; //current itterating image counter
 
@@ -25,6 +22,7 @@ imageCounter.innerHTML = "You are editing image " + (count+1) + " of " + merchs.
 
 const updateImageDisplay = () => {
   if(count == merchs.length){
+    console.log("all NFTs done");
     window.location.replace("pay.html");
   }
   document.getElementById("canvas-img").src = merchs[count];
@@ -119,23 +117,22 @@ interact('#free-img').resizable({
 
 const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
-var link = document.getElementById('dl-link');
+var link = document.getElementById('screenshot-btn');
 
 const takeshot = () => {
   html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
       (canvas) => {
-          link.style.display = 'inline';
-          link.addEventListener('click', (ev) => {
-            link.href = canvas.toDataURL();
-            link.download = "mycanvas.png";
+          //link.style.display = 'inline';
+          //link.addEventListener('click', (ev) => {
+            //link.href = canvas.toDataURL();
+            //link.download = "mycanvas.png";
             
-            let image = base64ToBlob(canvas.toDataURL());
-            upload(image);
-            updateImageDisplay();
+            let image = dataURLtoFile(canvas.toDataURL());
+            upload(image);            
           }, false);
-      });
+      //});
 }
-screenshotBtn.addEventListener('click', takeshot);
+//screenshotBtn.addEventListener('click', takeshot);
 
 updateImageDisplay();
 
@@ -166,6 +163,7 @@ const upload = async (image) => {
   .then((res) => {
     generatedImages.push(res.fileUrl);
     console.log(generatedImages);
+    updateImageDisplay();
   });
 }
 
