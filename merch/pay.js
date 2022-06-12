@@ -1,3 +1,8 @@
+//Service Provider
+const serverUrl = "https://9u6c8mkecbej.usemoralis.com:2053/server";
+const appId = "eR98aghbIcArA9Wfhh86INVnCk0M04Y96FviHdRJ";
+Moralis.start({ serverUrl, appId });
+
 const parseCookie = str =>
 str
 .split(';')
@@ -15,6 +20,7 @@ if (cookieObj.userAddress == undefined) {
 }
 
 var merchPrices;
+var merchURLs;
 
 const getData = async () => {
 
@@ -23,8 +29,10 @@ const getData = async () => {
     .then(data => merchPrices = data)
     .then(() => console.log(merchPrices));
 
-
-    console.log(merchPrices);
+    await fetch('http://localhost:8000/merchURLs')
+    .then(res => res.json())
+    .then(data => merchURLs = data)
+    .then(() => console.log(merchURLs));
 
     calculateBill();
 }
@@ -42,13 +50,26 @@ var userInfo = {
 };
 
 document.getElementById("pay").onclick = () => {
-    let allAreFilled = true;
-    document.getElementById("myForm").querySelectorAll("[required]").forEach(function(i) {
-      if (!allAreFilled) return;
-      if (!i.value) allAreFilled = false;
-    })
-    if (!allAreFilled) {
-      alert('Fill all the fields');
+    if(document.getElementById("nick").value.length == 0) {
+        alert("Please Input your Nickname to continue...");
+    }
+    if(document.getElementById("email").value.length == 0) {
+        alert("Please Input your Email to continue...");
+    }
+    if(document.getElementById("mailaddress").value.length == 0) {
+        alert("Please Input your Mailing Address to continue...");
+    }
+    else{
+        userInfo.walletAddress = cookieObj.userAddress;
+        userInfo.mailaddress = document.getElementById("mailaddress").value;
+        userInfo.email = document.getElementById("email").value;
+        userInfo.discordNickname = document.getElementById("nick").value;
+        userInfo.totalBillingAmount = totalBill;
+        userInfo.generatedMerch = cookieObj.generatedMerch;
+        userInfo.transactionConfirmed = false;
+        
+        calculateBill();
+        payBill();
     }
 
     //REFERENCE
@@ -61,64 +82,66 @@ document.getElementById("pay").onclick = () => {
      * generatedMerch: Array
      * transactionConfirmed: true
      */
-
-    //reconstrut user info from input fields
-    userInfo.walletAddress = cookieObj.userAddress;
-    userInfo.mailaddress = document.getElementById("mailaddress").value;
-    userInfo.email = document.getElementById("email").value;
-    userInfo.discordNickname = document.getElementById("nick").value;
-    userInfo.totalBillingAmount = totalBill;
-    userInfo.generatedMerch = cookieObj.generatedMerch;
-    userInfo.transactionConfirmed = false;
-    
-    calculateBill();
-    payBill();
 };
 
 var totalBill = 0;
 const calculateBill = () => {
-    for (let i = 0; i < cookieObj.selectedMerch.length; i++) {
-        if (cookieObj.selectedMerch == merchPrices[Object.keys(merchPrices)[i]]){
-            totalBill += Number(merchPrices[Object.keys(merchPrices)[i]]);
+    let selectedMerchURLsArray = JSON.parse(cookieObj.selectedMerch);
+    let allMerchURLsArray = Object.values(merchURLs);
+    let merchPricesArray = Object.values(merchPrices);
+    console.log(selectedMerchURLsArray);
+    console.log(allMerchURLsArray);
+    console.log(merchPricesArray);
+    for (let i = 0; i < selectedMerchURLsArray.length; i++) {
+        for(let j = 0; j < allMerchURLsArray.length; j++) {
+            if(selectedMerchURLsArray[i] == allMerchURLsArray[j]) {
+                totalBill += merchPricesArray[j];
+            }
         }
     }
+    console.log(totalBill);
 }
-
-
 
 //Prompts the user to transfer ERC 20 Tokens
 const payBill = async () => {
+    let transact;
+    user = await Moralis.authenticate({
+        signingMessage: "Connect Whoopdoop to MetaMask",
+    })
+    .then(() => {
+        console.log("Authenticated");
+    })
     const options = {
         type: "native",
         amount: Moralis.Units.ETH(totalBill),
         receiver: "0x848C5f70aC85173E2bF52a78CF85fEc9E4Dffd20", //ADD OWNER ADDRESS
     };
-    const transaction = await Moralis.transfer(options);
-    alert("Waiting for confirmation");
-    const result = await transaction.wait(); //Waits for atleast One confirmation
+    const transaction = await Moralis.transfer(options)
+    .then(async () => {
+        alert("Waiting for confirmation");
+        transact = await transaction.wait(); //Waits for atleast One confirmation
+        if (Object.keys(result).length === 0){
+            alert("Transaction Failed");
+        }
+        else {
+            alert("Transaction Confirmed, Press OK to continue");
+            userInfo.transactionConfirmed = true;
+            let data = userInfo;
+            let packet = JSON.stringify(data);
     
-    if (Object.keys(result).length === 0){
-        alert("Transaction Failed");
-    }
-    else {
-        alert("Transaction Confirmed");
-        userInfo.transactionConfirmed = true;
-    }
-
-    // The parameters we are gonna pass to the fetch function
-    let data = userInfo;
-    let packet = JSON.stringify(data);
+            await fetch('http://localhost:8000/pay', { 
+                method: 'POST',
+                body: packet,
+                headers: {'Content-Type': 'application/json'}
+            })
+            .then(function() {
+                console.log('Request succeeded');
+            });
     
-    fetch('http://localhost:8000/pay', { 
-        method: 'POST', 
-        body: packet,
-        headers: {'Content-Type': 'application/json'}
+            redirect();
+        }
     })
-    .then(function() {
-        console.log('Request succeeded');
-    });
-
-    redirect();
+    .catch(err => {alert(err.message)});    
 }
 
 //If successfull then redirect to Thankyou.html
