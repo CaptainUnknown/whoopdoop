@@ -124,7 +124,7 @@ const getNFTs = async() => {
   }
   console.log(ethNFTsContentIDs);
   for(let i = 0; i < ethNFTsContentIDs.length; i++) {
-    ethNFTsImagesURLs.push(`https://ipfs.io/ipfs/${ethNFTsContentIDs[i]}`);
+    ethNFTsImagesURLs.push(`https://cloudflare-ipfs.com/ipfs/${ethNFTsContentIDs[i]}`);
   }
   console.log(ethNFTsImagesURLs);
   
