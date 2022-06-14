@@ -7,6 +7,19 @@ str
   return acc;
 }, {});
 
+
+const addLoader = () => {
+  let loader = document.getElementById("loader");
+  loader.style.visibility = "visible";
+}
+
+const removeLoader = () => {
+  let loader = document.getElementById("loader");
+  loader.style.visibility = "hidden";
+}
+
+addLoader();
+
 const cookieObj = parseCookie(document.cookie);
 console.log(cookieObj);
 
@@ -15,19 +28,38 @@ var NFTs = JSON.parse(cookieObj.selectedNFTs);
 var merchs = JSON.parse(cookieObj.selectedMerch);
 console.log(NFTs);
 console.log(merchs);
-var count = 0; //current itterating image counter
+var merchCount = 0; //current itterating image counter
+var NFTCount = 0;
 
 let imageCounter = document.getElementById('currentItteratingCount')
-imageCounter.innerHTML = "You are editing image " + (count+1) + " of " + merchs.length;
+imageCounter.innerHTML = "You are editing image " + (merchCount+1) + " of " + merchs.length;
 
 const updateImageDisplay = () => {
-  if(count == merchs.length){
+  if(merchCount == merchs.length - 1){
     console.log("all NFTs done");
     window.location.replace("pay.html");
   }
-  document.getElementById("canvas-img").src = merchs[count];
-  document.getElementById("free-img").src = NFTs[count];
-  count++;
+  if(NFTCount == NFTs.length){
+    NFTCount--;
+    console.log("NFT Count decrease: " + NFTCount);
+  }
+  document.getElementById("canvas-img").src = merchs[merchCount];
+  document.getElementById("free-img").src = NFTs[NFTCount];
+  merchCount++;
+  console.log("merch count increased: " + merchCount);
+  NFTCount++;
+  console.log("NFTCount increased: " + NFTCount);
+}
+
+const goBackImageDisplay = () => {
+  if(NFTCount != 0 && merchCount != 0){
+    NFTCount--;
+    console.log("NFT Count decrease: " + NFTCount);
+    merchCount--;
+    console.log("merch count decreased: " + merchCount);
+  }
+  document.getElementById("canvas-img").src = merchs[merchCount];
+  document.getElementById("free-img").src = NFTs[NFTCount];
 }
 
 const generateTable = () => {
@@ -38,13 +70,12 @@ const generateTable = () => {
     image.style.width = 05;
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', () => {
-      count = 0;
       //only one checkbox at a time can be checked & can not be unchecked
       if(merchs.length > 1){
         if(checkbox.checked){
           for(let j = 0; j < merchs.length; j++){
             if(j != i){
-              let checkbox = document.getElementById("cb" + (j));
+              //let checkbox = document.getElementById("cb" + (j));
               checkbox.checked = false;
             }
           }
@@ -53,13 +84,14 @@ const generateTable = () => {
         if(checkbox.checked){
           for(let j = 0; j < merchs.length; j++){
             if(j != i){
-              let checkbox = document.getElementById("cb" + (j));
+              //let checkbox = document.getElementById("cb" + (j));
               checkbox.checked = false;
             }
           }
         }
       }
-      updateImageDisplay();
+      //updateImageDisplay();
+      //document.getElementById("free-img").src = NFTs[i];
     });
   }
 }
@@ -119,7 +151,7 @@ interact('#free-img').resizable({
 
 const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
-var link = document.getElementById('screenshot-btn');
+//var link = document.getElementById('screenshot-btn');
 
 const takeshot = () => {
   html2canvas(screenshot, {allowTaint: true, useCORS: true}).then(
@@ -143,8 +175,24 @@ updateImageDisplay();
 
 let next = document.getElementById("btn-next");
 next.addEventListener('click', () => {
-  takeshot();
-  imageCounter.innerHTML = "You are editing image " + (count+1) + " of " + merchs.length;
+  addLoader();
+  setTimeout(() => {
+    takeshot();
+    console.log("next returned");
+    imageCounter.innerHTML = "You are editing image " + (merchCount+1) + " of " + merchs.length;
+    updateImageDisplay();
+    removeLoader();
+  }, 1000);
+});
+
+let back = document.getElementById("btn-back");
+next.addEventListener('click', () => {
+  addLoader();
+  setTimeout(() => {
+    goBackImageDisplay();
+    imageCounter.innerHTML = "You are editing image " + (merchCount+1) + " of " + merchs.length;
+    removeLoader();
+  }, 1000);
 });
 
 let complete = document.getElementById("btn-merchDesigned");
@@ -189,3 +237,5 @@ function dataURLtoFile(dataurl, filename) {
   
   return new File([u8arr], filename, {type:mime});
 }
+
+removeLoader();
