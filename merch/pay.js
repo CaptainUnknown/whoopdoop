@@ -145,7 +145,13 @@ const payBill = async () => {
         });
     })
     .catch(err => {
-        alert("Transaction Failed");
+        let tempMsg = err.message.substring(0, 12)
+        if(tempMsg == "insufficient"){
+            alert("Insufficient Funds to Pay Gas fees");
+        }
+        else{
+            alert("Transaction Failed")
+        }
         console.log(err.message);
     });    
 }
