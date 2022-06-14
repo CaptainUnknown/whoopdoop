@@ -35,7 +35,7 @@ let imageCounter = document.getElementById('currentItteratingCount')
 imageCounter.innerHTML = "You are editing image " + (merchCount+1) + " of " + merchs.length;
 
 const updateImageDisplay = () => {
-  if(merchCount == merchs.length - 1){
+  if(merchCount == merchs.length){
     console.log("all NFTs done");
     window.location.replace("pay.html");
   }
