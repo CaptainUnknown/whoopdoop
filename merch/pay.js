@@ -16,7 +16,7 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
+  //window.location.replace("/merch/merch.html");
 }
 
 var merchPrices;
@@ -24,12 +24,12 @@ var merchURLs;
 
 const getData = async () => {
 
-    await fetch('http://localhost:8000/prices')
+    await fetch('http://whoopdoop.vercel.app/prices')
     .then(res => res.json())
     .then(data => merchPrices = data)
     .then(() => console.log(merchPrices));
 
-    await fetch('http://localhost:8000/merchURLs')
+    await fetch('http://whoopdoop.vercel.app/merchURLs')
     .then(res => res.json())
     .then(data => merchURLs = data)
     .then(() => console.log(merchURLs));
