@@ -1,4 +1,20 @@
 {
-    "shirt" : 0.005,
-    "hoodie" : 0.007
+    "nikeAirSneakers" : 599.99,
+    "blackTShirt" : 69.99,
+    "whiteTShirt" : 69.99,
+    "purpleHoodie" : 199.99,
+    "blackHoodie" : 199.99,
+    "whiteHoodie" : 199.99,
+    "redHoodie" : 199.99,
+    "popsicleSkateboard" : 279.99,
+    "nineInchSkateboard" : 299.99,
+    "retroRocket" : 299.99,
+    "squareNose" : 299.99,
+    "bottleTail" : 299.99,
+    "miniCruiser" : 279.99,
+    "longboardShape" : 349.99,
+    "oldSchoolShape" : 299.99,
+    "pintailLongboard" : 349.99,
+    "cruiserShape" : 279.99,
+    "punkNosePoolShape" : 599.99
 }
