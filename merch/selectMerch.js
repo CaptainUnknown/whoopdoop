@@ -11,7 +11,7 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
+  //window.location.replace("/merch/merch.html");
 }
 
 var selectedImages = [];
@@ -21,7 +21,7 @@ const generateTable = () => {
   for(let i = 0; i < merchArray.length; i++){
     let imageContainer = document.getElementById("image-container");
     let image = imageContainer.appendChild(document.createElement("li"));
-    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + merchArray[i] +"\" /></label></li>";
+    image.innerHTML = "<li><input type=\"checkbox\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\">⠀$" + merchPricesArray[i] + "<img src=\"" + merchArray[i] +"\" /></label></li>";
     let checkbox = document.getElementById("cb" + (i));
     checkbox.addEventListener( 'change', function() {
       if(this.checked) {
@@ -43,6 +43,7 @@ const generateTable = () => {
 var merchPrices = [];
 var merchURLs= {};
 
+var merchPricesArray = [];
 var merchArray = [];
 console.log(merchArray)
 
@@ -64,6 +65,11 @@ const getData = async () => {
 
   merchArray = Object.values(merchURLs);
   console.log(merchArray);
+  console.log(merchPrices);
+
+  merchPricesArray = Object.values(merchPrices);
+
+  console.log(merchPricesArray);
 
   generateTable();
 
