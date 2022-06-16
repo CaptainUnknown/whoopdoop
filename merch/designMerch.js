@@ -23,6 +23,11 @@ addLoader();
 const cookieObj = parseCookie(document.cookie);
 console.log(cookieObj);
 
+//Checks whether the user is authenticated
+if (cookieObj.userAddress == undefined) {
+  window.location.replace("/merch/merch.html");
+}
+
 console.log(cookieObj.selectedNFTs);
 var NFTs = JSON.parse(cookieObj.selectedNFTs);
 var merchs = JSON.parse(cookieObj.selectedMerch);
@@ -97,11 +102,6 @@ const generateTable = () => {
 }
 
 generateTable();
-
-//Checks whether the user is authenticated
-if (cookieObj.userAddress == undefined) {
-  window.location.replace("/merch/merch.html");
-}
 
 
 //============================Image Generation================================
