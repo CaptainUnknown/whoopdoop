@@ -101,6 +101,19 @@ const calculateBill = () => {
     console.log(totalBill);
 }
 
+let ethBill;
+const ethToUSD = async () => {
+    const packet = {address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", chain: "eth"};
+    const response = await Moralis.Web3API.token.getTokenPrice(packet);
+    console.log(response);
+
+    const USDPrice = response.usdPrice;
+    console.log(USDPrice);
+    ethBill = totalBill * (1/USDPrice);
+}
+
+ethToUSD();
+
 //Prompts the user to transfer ERC 20 Tokens
 const payBill = async () => {
     let transact;
@@ -115,7 +128,7 @@ const payBill = async () => {
     });
     const options = {
         type: "native",
-        amount: Moralis.Units.ETH(totalBill),
+        amount: Moralis.Units.ETH(ethBill),
         receiver: "0x848C5f70aC85173E2bF52a78CF85fEc9E4Dffd20", //ADD OWNER ADDRESS
     };
     const transaction = await Moralis.transfer(options)
