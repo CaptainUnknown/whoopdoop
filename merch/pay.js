@@ -24,12 +24,12 @@ var merchURLs;
 
 const getData = async () => {
 
-    await fetch('http://whoopdoop.vercel.app/prices')
+    await fetch('http://seahorse-app-bljtl.ondigitalocean.app/prices')
     .then(res => res.json())
     .then(data => merchPrices = data)
     .then(() => console.log(merchPrices));
 
-    await fetch('http://whoopdoop.vercel.app/merchURLs')
+    await fetch('http://seahorse-app-bljtl.ondigitalocean.app/merchURLs')
     .then(res => res.json())
     .then(data => merchURLs = data)
     .then(() => console.log(merchURLs));
@@ -141,7 +141,7 @@ const payBill = async () => {
             let data = userInfo;
             let packet = JSON.stringify(data);
     
-            await fetch('http://localhost:8000/pay', { 
+            await fetch('http://seahorse-app-bljtl.ondigitalocean.app/pay', { 
                 method: 'POST',
                 body: packet,
                 headers: {'Content-Type': 'application/json'}

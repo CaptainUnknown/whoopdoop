@@ -49,12 +49,12 @@ console.log(merchArray)
 
 const getData = async () => {
   
-  await fetch('http://localhost:8000/prices')
+  await fetch('http://seahorse-app-bljtl.ondigitalocean.app/prices')
   .then(res => res.json())
   .then(data => merchPrices = data)
   .then(() => console.log(merchPrices));
   
-  await fetch('http://localhost:8000/merchURLs')
+  await fetch('http://seahorse-app-bljtl.ondigitalocean.app/merchURLs')
   .then(res => res.json())
   .then(data => merchURLs = data)
   .then(() => console.log(merchURLs));
