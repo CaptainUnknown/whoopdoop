@@ -10,7 +10,10 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    //methods: ['GET', 'POST'],
+}));
 app.use(express.static("."));
 
 app.use(express.json());

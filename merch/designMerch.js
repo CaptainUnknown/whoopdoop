@@ -68,7 +68,7 @@ const goBackImageDisplay = () => {
 }
 
 const generateTable = () => {
-  for(let i = 0; i < merchs.length - 1; i++){
+  for(let i = 0; i < NFTs.length - 1; i++){
     let imageContainer = document.getElementById("curretSelector");
     let image = imageContainer.appendChild(document.createElement("li"));
     image.innerHTML = "<li><input type=\"checkbox\" class=\"radioCheck\" id=\"cb" + (i) + "\" /><label for=\"cb" +(i)+ "\"><img src=\"" + NFTs[i] +"\" /></label></li>";
