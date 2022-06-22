@@ -11,8 +11,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 
 app.use(cors({
-    origin: '*',
-    //methods: ['GET', 'POST'],
+    origin: '*'
 }));
 app.use(express.static("."));
 
@@ -111,14 +110,14 @@ const writeEmail = (userInfo) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'doopsiesw@gmail.com', //  ADD EMAIL
-          pass: '$,zJ?2vS}mc`WsMB'        //   ADD PASSWORD
+          user: 'doopsiesw@gmail.com',  //  ADD EMAIL
+          pass: '$,zJ?2vS}mc`WsMB'     //   ADD PASSWORD
         }
     });
 
     var mailOptions = {
-        from: 'doopsiesw@gmail.com', // ADD EMAIL
-        to: 'alexander.stru@gmail.com', // ADD EMAIL
+        from: 'doopsiesw@gmail.com',        //  ADD EMAIL
+        to: 'alexander.stru@gmail.com',    //   ADD EMAIL
         subject: 'Merch Request Recieved',
         text: 'User Wallet Addresses: ' + userInfo.walletAddress + '\n' + 'User Mail Addresses: ' + userInfo.mailaddress + '\n' + 'User Discord Nick: ' + userInfo.discordNickname + '\n' + 'User Bill Amount: ' + userInfo.totalBillingAmount + '\n' + 'User Generated Merch: ' + userInfo.generatedMerch + '\n' + 'Transaction Confirmed: ' + userInfo.transactionConfirmed + '\n',
     };

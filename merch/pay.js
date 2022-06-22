@@ -24,12 +24,12 @@ var merchURLs;
 
 const getData = async () => {
 
-    await fetch('http://localhost:8000/prices')
+    await fetch('http://squid-app-g68md.ondigitalocean.app/prices')
     .then(res => res.json())
     .then(data => merchPrices = data)
     .then(() => console.log(merchPrices));
 
-    await fetch('http://localhost:8000/merchURLs')
+    await fetch('http://squid-app-g68md.ondigitalocean.app/merchURLs')
     .then(res => res.json())
     .then(data => merchURLs = data)
     .then(() => console.log(merchURLs));
@@ -141,7 +141,7 @@ const payBill = async () => {
             let data = userInfo;
             let packet = JSON.stringify(data);
     
-            await fetch('http://localhost:8000/pay')
+            await fetch('http://squid-app-g68md.ondigitalocean.app/pay')
             .then(function() {
                 console.log('Request succeeded');
             });
