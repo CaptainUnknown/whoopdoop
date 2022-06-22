@@ -99,6 +99,7 @@ const calculateBill = () => {
         }
     }
     console.log(totalBill);
+    ethToUSD();
 }
 
 let ethBill;
@@ -110,6 +111,7 @@ const ethToUSD = async () => {
     const USDPrice = response.usdPrice;
     console.log(USDPrice);
     ethBill = totalBill * (1/USDPrice);
+    console.log(ethBill);
 }
 
 ethToUSD();
