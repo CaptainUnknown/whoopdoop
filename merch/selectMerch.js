@@ -49,12 +49,12 @@ console.log(merchArray)
 
 const getData = async () => {
 
-  await fetch('http://squid-app-g68md.ondigitalocean.app/prices')
+  await fetch('https://squid-app-g68md.ondigitalocean.app/prices')
   .then(res => res.json())
   .then(data => merchPrices = data)
   .then(() => console.log(merchPrices));
   
-  await fetch('http://squid-app-g68md.ondigitalocean.app/merchURLs')
+  await fetch('https://squid-app-g68md.ondigitalocean.app/merchURLs')
   .then(res => res.json())
   .then(data => merchURLs = data)
   .then(() => console.log(merchURLs));
