@@ -206,7 +206,7 @@ const upload = async (image) => {
     method: 'POST',
     headers: {
         'Content-Type': 'image/jpeg',
-        'Authorization': 'Bearer public_FW25ar69TXtVNNJie6Me8MCC25Rs'
+        'Authorization': 'Bearer public_kW15asK6YxingEreFbvLmh38XKNq'
     },
     body: image
   })
