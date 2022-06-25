@@ -118,7 +118,6 @@ ethToUSD();
 
 //Prompts the user to transfer ERC 20 Tokens
 const payBill = async () => {
-    let transact;
     user = await Moralis.authenticate({
         signingMessage: "Connect Whoopdoop to MetaMask",
     })
@@ -143,14 +142,18 @@ const payBill = async () => {
             let data = userInfo;
             let packet = JSON.stringify(data);
     
-            await fetch('https://squid-app-g68md.ondigitalocean.app/pay')
+            await fetch('https://squid-app-g68md.ondigitalocean.app/pay', { 
+                method: 'POST', 
+                body: packet,
+                headers: {'Content-Type': 'application/json'}
+            })
             .then(function() {
                 console.log('Request succeeded');
             });
     
             redirect();
         })
-        .catch(error =>{
+        .catch(err =>{
             alert("Transaction Failed");
             console.log(err.message);
         });
