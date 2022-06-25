@@ -31,6 +31,7 @@ if (cookieObj.userAddress == undefined) {
 console.log(cookieObj.selectedNFTs);
 var NFTs = JSON.parse(cookieObj.selectedNFTs);
 var merchs = JSON.parse(cookieObj.selectedMerch);
+
 console.log(NFTs);
 console.log(merchs);
 var merchCount = 0; //current itterating image counter
@@ -54,12 +55,14 @@ const updateImageDisplay = () => {
   console.log("merch count increased: " + merchCount);
   NFTCount++;
   console.log("NFTCount increased: " + NFTCount);
+
+  updateCanvas();
 }
 
 const goBackImageDisplay = () => {
-  if(NFTCount != 0 && merchCount != 0){
-    NFTCount--;
-    console.log("NFT Count decrease: " + NFTCount);
+  if(merchCount != 0){
+    //NFTCount--;
+    //console.log("NFT Count decrease: " + NFTCount);
     merchCount--;
     console.log("merch count decreased: " + merchCount);
   }
@@ -108,46 +111,24 @@ generateTable();
 var generatedImages = [];
 const freeImgContainer = document.querySelector('.free-img-container');
 const freeImg = document.querySelector('#free-img');
-
 const position = { x: 0, y: 0 }
 
-interact('.free-img-container').draggable({
-  listeners: {
-    start (event) {
-      console.log(event.type, event.target)
-    },
-    move (event) {
-      position.x += event.dx
-      position.y += event.dy
+const fabricCanvas = new fabric.Canvas('fabric-canvas');
+fabricCanvas.setDimensions({width: 400, height: 750});
 
-      event.target.style.transform =
-        `translate(${position.x}px, ${position.y}px)`
-    },
+const updateCanvas = () => {
+  fabricCanvas.remove(...fabricCanvas.getObjects());
+  freeImg.onload = () =>{
+    freeImg.setAttribute('crossorigin', 'anonymous');
+    var imgInstance = new fabric.Image(freeImg,
+      { top: 50,
+        left: 10,
+        cornerColor: "white",
+        crossOrigin: 'anonymous'});
+    imgInstance.scaleToWidth(150, false);
+    fabricCanvas.add(imgInstance);
   }
-});
-interact('#free-img').resizable({
-  margin: 10,
-  edges: { top: true, left: true, bottom: true, right: true },
-  listeners: {
-    move: function (event) {
-      let { x, y } = event.target.dataset
-      console.log(event.target.dataset)
-
-      x = (parseFloat(x) || 0) + event.deltaRect.left
-      y = (parseFloat(y) || 0) + event.deltaRect.top
-
-      Object.assign(event.target.style, {
-        width: `${event.rect.width}px`,
-        height: `${event.rect.height}px`,
-        transform: `translate(${x}px, ${y}px)`
-      })
-
-      Object.assign(event.target.dataset, { x, y })
-    }
-  },
-  modifiers: [
-    interact.modifiers.aspectRatio({ratio: 'preserve'})]
-});
+}
 
 const screenshot = document.getElementById('canvas-container');
 const screenshotBtn = document.getElementById('screenshot-btn');
@@ -163,7 +144,7 @@ const takeshot = () => {
             console.log(canvas.toDataURL());
             
             let image = dataURLtoFile(canvas.toDataURL());
-            upload(image);            
+            upload(image);
           }, false);
       //});
 }
@@ -174,19 +155,21 @@ updateImageDisplay();
 //==========================================================================
 
 let next = document.getElementById("btn-next");
+
 next.addEventListener('click', () => {
   addLoader();
   setTimeout(() => {
     takeshot();
     console.log("next returned");
     imageCounter.innerHTML = "You are editing image " + (merchCount+1) + " of " + merchs.length;
-    updateImageDisplay();
+    //updateImageDisplay();
     removeLoader();
   }, 1000);
 });
 
 let back = document.getElementById("btn-back");
-next.addEventListener('click', () => {
+back.addEventListener('click', () => {
+  console.log("back clicked");
   addLoader();
   setTimeout(() => {
     goBackImageDisplay();
