@@ -11,7 +11,7 @@ const cookieObj = parseCookie(document.cookie);
 
 //Checks whether the user is authenticated
 if (cookieObj.userAddress == undefined) {
-  //window.location.replace("/merch/merch.html");
+  window.location.replace("/merch/merch.html");
 }
 
 var selectedImages = [];
